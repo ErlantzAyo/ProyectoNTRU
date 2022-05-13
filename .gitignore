@@ -1,0 +1,5 @@
+*.zip
+**/objects/
+**/bin/
+datos.txt
+
