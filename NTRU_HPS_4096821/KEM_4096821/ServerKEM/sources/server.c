@@ -25,6 +25,12 @@
 #include "params.h"
 #include "randombytes.h"
 
+/* Symmetryc crypto */
+#include "../../sparkle256/api.h"
+#include "../../sparkle256/encrypt.c"  // hard included since encrypt.h is not in lib implementation
+#include "../../sparkle256/sparkle_ref.h"
+#define SPARKLE_MAX_SIZE 32
+
 /*Benchmark*/
 
 #include <time.h>
@@ -39,6 +45,8 @@ static void printBstr(const char *, const uint8_t *, size_t);
 int KEM(int, double *, double *);
 double TiempoProceso(clock_t, clock_t);
 void EscribirFichero(char *nombreFichero, char *variable, double dato);
+static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
+                   uint8_t *dec);
 static void log8(char *text, uint8_t *data, size_t len);
 
 int main(int argc, char *argv[]) {
@@ -146,11 +154,6 @@ int KEM(int connfd, double *kpTime, double *decTime) {
 
   printBstr("SERVER: CT=", ciphertext, NTRU_CIPHERTEXTBYTES);
 
-  // ARF
-  char data[32];
-  read(connfd, data, sizeof data);
-  printf("SERVER: VALUE=%s\n\n", data);
-
   tic = clock();
   rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_dec(shared_secret_d, ciphertext,
                                                    secret_key);
@@ -164,6 +167,18 @@ int KEM(int connfd, double *kpTime, double *decTime) {
   printBstr("SERVER: SSD=", shared_secret_d, NTRU_SHAREDKEYBYTES);
   printf("\n Keypair time (ms): %f ", *kpTime);
   printf("\n Decrypt time (ms): %f \n", *decTime);
+
+  // Extract payload (nonce+encData)
+  uint8_t nonce[SPARKLE_MAX_SIZE];
+  read(connfd, nonce, sizeof nonce);
+  log8("SERVER: NONCE=", nonce, sizeof nonce);
+  uint8_t msg[SPARKLE_MAX_SIZE];
+  read(connfd, msg, sizeof msg);
+  log8("nonce: ", nonce, sizeof nonce);
+  log8("enc  : ", msg, sizeof msg);
+  log8("SERVER: MESSAGE (BEFORE)=", msg, sizeof msg);
+  decrypt(shared_secret_d, nonce, msg, msg);
+  log8("SERVER: MESSAGE (AFTER)=", msg, sizeof msg);
   return 0;
 }
 
@@ -196,6 +211,18 @@ void EscribirFichero(char *nombreFichero, char *variable, double dato) {
 
   fprintf(fp, "%s %f\n", variable, dato);
   fclose(fp);
+}
+
+static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
+                   uint8_t *dec) {
+  SparkleState state = {{1}, {1}};
+  // ARF: RND to prevent nonce misuse attacks
+  // since we are not using encrypt as channel, nonce is not so important
+  // randombytes(nonce, CRYPTO_KEYBYTES);
+  Initialize(&state, key, nonce);
+  ProcessCipherText(&state, dec, enc, SPARKLE_MAX_SIZE);
+  printf("dec: %s\n", dec);
+  return 0;
 }
 
 static void log8(char *text, uint8_t *data, size_t len) {
