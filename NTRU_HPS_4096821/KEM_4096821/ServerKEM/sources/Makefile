@@ -2,7 +2,7 @@ TARGET = $(BIN_DIR)/ServerKEM
 
 
 BIN_DIR = ../bin
-INC_DIR = ../includes
+INC_DIR = ../includes -I ../../sparkle256
 SRC_DIR = .
 OBJ_DIR = ../objects
 
