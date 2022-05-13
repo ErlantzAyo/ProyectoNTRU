@@ -82,10 +82,10 @@ int main() {
 
   printf("connected to the server..\n");
 
-  for (int i = 0; i < 100; i++) {
-    KEMCliente(sockfd, &encTime);
-    EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
-  }
+  // for (int i = 0; i < 100; i++) {
+  KEMCliente(sockfd, &encTime);
+  EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
+  //}
 
   /* close the socket */
   close(sockfd);
@@ -124,9 +124,8 @@ int KEMCliente(int sockfd, double *encTime) {
   log8("enc  : ", enc, sizeof enc);
   write(sockfd, nonce, SPARKLE_MAX_SIZE);
   write(sockfd, enc, SPARKLE_MAX_SIZE);
-  close(sockfd);
-  exit(1);
-  // return 0;
+
+  return 0;
 }
 
 static void printBstr(const char *S, const uint8_t *key, size_t L) {

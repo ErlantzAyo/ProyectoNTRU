@@ -104,13 +104,13 @@ int main(int argc, char *argv[]) {
       return -1;
     } else {
       // KEM NTRU
-    //  for (int i = 0; i < 100; i++) {
+      for (int i = 0; i < 100; i++) {
         printf("CONEXION %d:\n", ++n_conexion);
         EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
         KEM(connfd, &kpTime, &decTime);
         EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
         EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
-    //  }
+      }
       close(connfd);
     }
   }
