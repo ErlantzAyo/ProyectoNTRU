@@ -171,14 +171,13 @@ int KEM(int connfd, double *kpTime, double *decTime) {
   // Extract payload (nonce+encData)
   uint8_t nonce[SPARKLE_MAX_SIZE];
   read(connfd, nonce, sizeof nonce);
-  log8("SERVER: NONCE=", nonce, sizeof nonce);
   uint8_t msg[SPARKLE_MAX_SIZE];
   read(connfd, msg, sizeof msg);
   log8("nonce: ", nonce, sizeof nonce);
   log8("enc  : ", msg, sizeof msg);
-  log8("SERVER: MESSAGE (BEFORE)=", msg, sizeof msg);
   decrypt(shared_secret_d, nonce, msg, msg);
-  log8("SERVER: MESSAGE (AFTER)=", msg, sizeof msg);
+  printf("dec: %s\n", msg);
+  printf("\n");
   return 0;
 }
 
@@ -221,7 +220,6 @@ static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
   // randombytes(nonce, CRYPTO_KEYBYTES);
   Initialize(&state, key, nonce);
   ProcessCipherText(&state, dec, enc, SPARKLE_MAX_SIZE);
-  printf("dec: %s\n", dec);
   return 0;
 }
 

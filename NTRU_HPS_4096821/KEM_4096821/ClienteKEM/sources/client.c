@@ -82,10 +82,10 @@ int main() {
 
   printf("connected to the server..\n");
 
-  // for (int i = 0; i < 100; i++) {
-  KEMCliente(sockfd, &encTime);
-  EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
-  //}
+  for (int i = 0; i < 100; i++) {
+    KEMCliente(sockfd, &encTime);
+    EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
+  }
 
   /* close the socket */
   close(sockfd);
@@ -116,7 +116,11 @@ int KEMCliente(int sockfd, double *encTime) {
   write(sockfd, ciphertext, sizeof(ciphertext));
 
   // Send payload (nonce+encData)
-  uint8_t *msg = (uint8_t *)"Temp:25.5";
+  uint8_t msg[SPARKLE_MAX_SIZE] = "Temp: 25.0";
+  static uint8_t val = 0;
+  if (val >= 9) val = 0;
+  val++;
+  msg[9] = '0' + val;
   uint8_t nonce[SPARKLE_MAX_SIZE];
   uint8_t enc[SPARKLE_MAX_SIZE];
   encrypt(shared_secret_e, msg, nonce, enc);
