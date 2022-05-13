@@ -31,11 +31,12 @@
 #include "params.h"
 #include "randombytes.h"
 
-/*ARF crypto*/
+/* Symmetryc crypto */
 #include "../../sparkle256/api.h"
 #include "../../sparkle256/encrypt.c"  // hard included since encrypt.h is not in lib implementation
 #include "../../sparkle256/sparkle_ref.h"
 #define SPARKLE_MAX_SIZE 32
+
 /*Benchmark*/
 #include <time.h>
 
@@ -47,10 +48,8 @@ int KEMCliente(int, double *);
 static void printBstr(const char *, const uint8_t *, size_t);
 double TiempoProceso(clock_t, clock_t);
 void EscribirFichero(char *, char *, double);
-static int encrypt(const uint8_t *key, const uint8_t *dec, uint8_t *nonce,
+static int encrypt(const uint8_t *key, uint8_t *dec, uint8_t *nonce,
                    uint8_t *enc);
-static int decrypt(const uint8_t *key, const uint8_t *nonce, const uint8_t *enc,
-                   uint8_t *dec);
 static void log8(char *text, uint8_t *data, size_t len);
 
 int main() {
@@ -116,17 +115,12 @@ int KEMCliente(int sockfd, double *encTime) {
 
   write(sockfd, ciphertext, sizeof(ciphertext));
 
-  // ARF- send also the encrypted data
   uint8_t *msg = (uint8_t *)"Temp:25.5";
   uint8_t nonce[SPARKLE_MAX_SIZE];
   uint8_t enc[SPARKLE_MAX_SIZE];
   encrypt(shared_secret_e, msg, nonce, enc);
-  uint8_t msg2[SPARKLE_MAX_SIZE];
-  decrypt(shared_secret_e, nonce, enc, msg2);
   write(sockfd, nonce, SPARKLE_MAX_SIZE);
   write(sockfd, enc, SPARKLE_MAX_SIZE);
-  // end ARF
-
   return 0;
 }
 
@@ -160,7 +154,7 @@ void EscribirFichero(char *nombreFichero, char *variable, double dato) {
   fclose(fp);
 }
 
-static int encrypt(const uint8_t *key, const uint8_t *dec, uint8_t *nonce,
+static int encrypt(const uint8_t *key, uint8_t *dec, uint8_t *nonce,
                    uint8_t *enc) {
   SparkleState state = {{1}, {1}};
   // ARF: RND to prevent nonce misuse attacks
@@ -169,18 +163,6 @@ static int encrypt(const uint8_t *key, const uint8_t *dec, uint8_t *nonce,
   Initialize(&state, key, nonce);
   ProcessPlainText(&state, enc, dec, SPARKLE_MAX_SIZE);
   Finalize(&state, key);
-  return 0;
-}
-
-static int decrypt(const uint8_t *key, const uint8_t *nonce, const uint8_t *enc,
-                   uint8_t *dec) {
-  SparkleState state = {{1}, {1}};
-  // ARF: RND to prevent nonce misuse attacks
-  // since we are not using encrypt as channel, nonce is not so important
-  // randombytes(nonce, CRYPTO_KEYBYTES);
-  Initialize(&state, key, nonce);
-  ProcessCipherText(&state, dec, enc, SPARKLE_MAX_SIZE);
-  printf("dec: %s\n", dec);
   return 0;
 }
 
