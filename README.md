@@ -25,4 +25,4 @@ To allow using KEM without session handling, we could encrypt the data in the fo
 
 ## Format of data exchanged (the payload)
 
-`[ciphertext][encdata]` in binary (non encoded), snce the payload is flushed directly to the socket.
+`[ciphertext][nonce][encdata]` in binary (non encoded), snce the payload is flushed directly to the socket.
