@@ -39,6 +39,7 @@ static void printBstr(const char *, const uint8_t *, size_t);
 int KEM(int, double *, double *);
 double TiempoProceso(clock_t, clock_t);
 void EscribirFichero(char *nombreFichero, char *variable, double dato);
+static void log8(char *text, uint8_t *data, size_t len);
 
 int main(int argc, char *argv[]) {
   int sockfd, connfd, n_conexion = 0; /* sockets*/
@@ -195,4 +196,13 @@ void EscribirFichero(char *nombreFichero, char *variable, double dato) {
 
   fprintf(fp, "%s %f\n", variable, dato);
   fclose(fp);
+}
+
+static void log8(char *text, uint8_t *data, size_t len) {
+  // size_t LIMIT = len;
+  size_t LIMIT = len < 32 ? len : 32;
+  printf("%s", text);
+  for (size_t r = 0; r < LIMIT; r++) printf("%02x", *data++);
+  if (len > LIMIT) printf("...%zu bytes", len);
+  printf("\n");
 }

@@ -51,6 +51,7 @@ static int encrypt(const uint8_t *key, const uint8_t *dec, uint8_t *nonce,
                    uint8_t *enc);
 static int decrypt(const uint8_t *key, const uint8_t *nonce, const uint8_t *enc,
                    uint8_t *dec);
+static void log8(char *text, uint8_t *data, size_t len);
 
 int main() {
   int sockfd;
@@ -181,4 +182,13 @@ static int decrypt(const uint8_t *key, const uint8_t *nonce, const uint8_t *enc,
   ProcessCipherText(&state, dec, enc, SPARKLE_MAX_SIZE);
   printf("dec: %s\n", dec);
   return 0;
+}
+
+static void log8(char *text, uint8_t *data, size_t len) {
+  // size_t LIMIT = len;
+  size_t LIMIT = len < 32 ? len : 32;
+  printf("%s", text);
+  for (size_t r = 0; r < LIMIT; r++) printf("%02x", *data++);
+  if (len > LIMIT) printf("...%zu bytes", len);
+  printf("\n");
 }
