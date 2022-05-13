@@ -115,13 +115,18 @@ int KEMCliente(int sockfd, double *encTime) {
 
   write(sockfd, ciphertext, sizeof(ciphertext));
 
+  // Send payload (nonce+encData)
   uint8_t *msg = (uint8_t *)"Temp:25.5";
   uint8_t nonce[SPARKLE_MAX_SIZE];
   uint8_t enc[SPARKLE_MAX_SIZE];
   encrypt(shared_secret_e, msg, nonce, enc);
+  log8("nonce: ", nonce, sizeof nonce);
+  log8("enc  : ", enc, sizeof enc);
   write(sockfd, nonce, SPARKLE_MAX_SIZE);
   write(sockfd, enc, SPARKLE_MAX_SIZE);
-  return 0;
+  close(sockfd);
+  exit(1);
+  // return 0;
 }
 
 static void printBstr(const char *S, const uint8_t *key, size_t L) {
