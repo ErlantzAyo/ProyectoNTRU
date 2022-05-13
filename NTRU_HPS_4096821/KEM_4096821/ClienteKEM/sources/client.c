@@ -79,10 +79,10 @@ int main() {
 
   printf("connected to the server..\n");
 
-  for (int i = 0; i < 100; i++) {
+  //for (int i = 0; i < 100; i++) {
     KEMCliente(sockfd, &encTime);
     EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
-  }
+  //}
 
   /* close the socket */
   close(sockfd);
