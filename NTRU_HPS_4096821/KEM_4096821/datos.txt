@@ -1,0 +1,1095 @@
+PRUEBA  1.000000
+EncryptTime (ms) = 0.719000
+KeypairTime (ms) = 55.737000
+DecryptTime (ms) = 2.218000
+PRUEBA  2.000000
+EncryptTime (ms) = 0.755000
+KeypairTime (ms) = 61.511000
+DecryptTime (ms) = 1.528000
+PRUEBA  3.000000
+EncryptTime (ms) = 0.699000
+KeypairTime (ms) = 51.631000
+DecryptTime (ms) = 1.801000
+PRUEBA  4.000000
+EncryptTime (ms) = 0.698000
+KeypairTime (ms) = 51.290000
+DecryptTime (ms) = 1.526000
+PRUEBA  5.000000
+EncryptTime (ms) = 1.032000
+KeypairTime (ms) = 50.858000
+DecryptTime (ms) = 1.514000
+PRUEBA  6.000000
+EncryptTime (ms) = 0.941000
+KeypairTime (ms) = 48.648000
+DecryptTime (ms) = 1.490000
+PRUEBA  7.000000
+EncryptTime (ms) = 0.639000
+KeypairTime (ms) = 49.710000
+DecryptTime (ms) = 1.491000
+PRUEBA  8.000000
+EncryptTime (ms) = 0.972000
+KeypairTime (ms) = 48.628000
+DecryptTime (ms) = 1.499000
+PRUEBA  9.000000
+EncryptTime (ms) = 0.675000
+KeypairTime (ms) = 48.993000
+DecryptTime (ms) = 1.739000
+PRUEBA  10.000000
+EncryptTime (ms) = 0.720000
+KeypairTime (ms) = 64.840000
+DecryptTime (ms) = 1.532000
+PRUEBA  11.000000
+EncryptTime (ms) = 0.657000
+KeypairTime (ms) = 53.029000
+DecryptTime (ms) = 1.497000
+PRUEBA  12.000000
+EncryptTime (ms) = 0.659000
+KeypairTime (ms) = 48.532000
+DecryptTime (ms) = 2.139000
+PRUEBA  13.000000
+EncryptTime (ms) = 1.031000
+KeypairTime (ms) = 50.475000
+DecryptTime (ms) = 1.500000
+PRUEBA  14.000000
+EncryptTime (ms) = 0.684000
+KeypairTime (ms) = 50.057000
+DecryptTime (ms) = 1.529000
+PRUEBA  15.000000
+EncryptTime (ms) = 0.694000
+KeypairTime (ms) = 51.425000
+DecryptTime (ms) = 2.228000
+PRUEBA  16.000000
+EncryptTime (ms) = 0.965000
+KeypairTime (ms) = 59.453000
+DecryptTime (ms) = 1.496000
+PRUEBA  17.000000
+EncryptTime (ms) = 0.738000
+KeypairTime (ms) = 50.035000
+DecryptTime (ms) = 1.506000
+PRUEBA  18.000000
+EncryptTime (ms) = 0.697000
+KeypairTime (ms) = 49.169000
+DecryptTime (ms) = 1.515000
+PRUEBA  19.000000
+EncryptTime (ms) = 0.699000
+KeypairTime (ms) = 49.189000
+DecryptTime (ms) = 1.525000
+PRUEBA  20.000000
+EncryptTime (ms) = 0.705000
+KeypairTime (ms) = 49.898000
+DecryptTime (ms) = 1.491000
+PRUEBA  21.000000
+EncryptTime (ms) = 0.997000
+KeypairTime (ms) = 49.568000
+DecryptTime (ms) = 1.508000
+PRUEBA  22.000000
+EncryptTime (ms) = 0.683000
+KeypairTime (ms) = 48.941000
+DecryptTime (ms) = 1.467000
+PRUEBA  23.000000
+EncryptTime (ms) = 1.019000
+KeypairTime (ms) = 48.719000
+DecryptTime (ms) = 1.498000
+PRUEBA  24.000000
+EncryptTime (ms) = 0.692000
+KeypairTime (ms) = 49.090000
+DecryptTime (ms) = 1.548000
+PRUEBA  25.000000
+EncryptTime (ms) = 0.680000
+KeypairTime (ms) = 48.859000
+DecryptTime (ms) = 1.537000
+PRUEBA  26.000000
+EncryptTime (ms) = 0.676000
+KeypairTime (ms) = 49.567000
+DecryptTime (ms) = 1.522000
+PRUEBA  27.000000
+EncryptTime (ms) = 0.957000
+KeypairTime (ms) = 50.133000
+DecryptTime (ms) = 1.489000
+PRUEBA  28.000000
+EncryptTime (ms) = 0.695000
+KeypairTime (ms) = 49.412000
+DecryptTime (ms) = 1.572000
+PRUEBA  29.000000
+EncryptTime (ms) = 0.693000
+KeypairTime (ms) = 51.087000
+DecryptTime (ms) = 1.565000
+PRUEBA  30.000000
+EncryptTime (ms) = 0.698000
+KeypairTime (ms) = 50.030000
+DecryptTime (ms) = 1.563000
+PRUEBA  31.000000
+EncryptTime (ms) = 0.673000
+KeypairTime (ms) = 50.303000
+DecryptTime (ms) = 1.630000
+PRUEBA  32.000000
+EncryptTime (ms) = 0.692000
+KeypairTime (ms) = 50.170000
+DecryptTime (ms) = 1.565000
+PRUEBA  33.000000
+EncryptTime (ms) = 0.698000
+KeypairTime (ms) = 51.554000
+DecryptTime (ms) = 1.565000
+PRUEBA  34.000000
+EncryptTime (ms) = 0.712000
+KeypairTime (ms) = 65.564000
+DecryptTime (ms) = 1.618000
+PRUEBA  35.000000
+EncryptTime (ms) = 0.703000
+KeypairTime (ms) = 50.121000
+DecryptTime (ms) = 1.610000
+PRUEBA  36.000000
+EncryptTime (ms) = 0.658000
+KeypairTime (ms) = 48.529000
+DecryptTime (ms) = 1.488000
+PRUEBA  37.000000
+EncryptTime (ms) = 0.679000
+KeypairTime (ms) = 48.724000
+DecryptTime (ms) = 1.563000
+PRUEBA  38.000000
+EncryptTime (ms) = 0.676000
+KeypairTime (ms) = 49.803000
+DecryptTime (ms) = 1.537000
+PRUEBA  39.000000
+EncryptTime (ms) = 0.694000
+KeypairTime (ms) = 49.783000
+DecryptTime (ms) = 1.486000
+PRUEBA  40.000000
+EncryptTime (ms) = 0.695000
+KeypairTime (ms) = 53.007000
+DecryptTime (ms) = 1.515000
+PRUEBA  41.000000
+EncryptTime (ms) = 1.063000
+KeypairTime (ms) = 53.523000
+DecryptTime (ms) = 1.497000
+PRUEBA  42.000000
+EncryptTime (ms) = 0.725000
+KeypairTime (ms) = 49.490000
+DecryptTime (ms) = 2.175000
+PRUEBA  43.000000
+EncryptTime (ms) = 1.027000
+KeypairTime (ms) = 61.229000
+DecryptTime (ms) = 1.499000
+PRUEBA  44.000000
+EncryptTime (ms) = 0.694000
+KeypairTime (ms) = 49.630000
+DecryptTime (ms) = 1.534000
+PRUEBA  45.000000
+EncryptTime (ms) = 0.718000
+KeypairTime (ms) = 55.464000
+DecryptTime (ms) = 2.220000
+PRUEBA  46.000000
+EncryptTime (ms) = 0.727000
+KeypairTime (ms) = 65.572000
+DecryptTime (ms) = 1.577000
+PRUEBA  47.000000
+EncryptTime (ms) = 0.998000
+KeypairTime (ms) = 57.731000
+DecryptTime (ms) = 2.238000
+PRUEBA  48.000000
+EncryptTime (ms) = 0.680000
+KeypairTime (ms) = 52.045000
+DecryptTime (ms) = 1.741000
+PRUEBA  49.000000
+EncryptTime (ms) = 0.727000
+KeypairTime (ms) = 53.915000
+DecryptTime (ms) = 2.281000
+PRUEBA  50.000000
+EncryptTime (ms) = 1.019000
+KeypairTime (ms) = 53.739000
+DecryptTime (ms) = 1.497000
+PRUEBA  51.000000
+EncryptTime (ms) = 0.674000
+KeypairTime (ms) = 48.935000
+DecryptTime (ms) = 2.164000
+PRUEBA  52.000000
+EncryptTime (ms) = 1.039000
+KeypairTime (ms) = 59.075000
+DecryptTime (ms) = 1.488000
+PRUEBA  53.000000
+EncryptTime (ms) = 0.717000
+KeypairTime (ms) = 54.759000
+DecryptTime (ms) = 2.204000
+PRUEBA  54.000000
+EncryptTime (ms) = 0.694000
+KeypairTime (ms) = 54.632000
+DecryptTime (ms) = 1.519000
+PRUEBA  55.000000
+EncryptTime (ms) = 0.715000
+KeypairTime (ms) = 50.550000
+DecryptTime (ms) = 1.490000
+PRUEBA  56.000000
+EncryptTime (ms) = 0.666000
+KeypairTime (ms) = 48.957000
+DecryptTime (ms) = 1.492000
+PRUEBA  57.000000
+EncryptTime (ms) = 0.680000
+KeypairTime (ms) = 52.211000
+DecryptTime (ms) = 1.518000
+PRUEBA  58.000000
+EncryptTime (ms) = 0.660000
+KeypairTime (ms) = 48.542000
+DecryptTime (ms) = 1.508000
+PRUEBA  59.000000
+EncryptTime (ms) = 0.890000
+KeypairTime (ms) = 48.490000
+DecryptTime (ms) = 2.159000
+PRUEBA  60.000000
+EncryptTime (ms) = 0.722000
+KeypairTime (ms) = 64.444000
+DecryptTime (ms) = 2.194000
+PRUEBA  61.000000
+EncryptTime (ms) = 0.660000
+KeypairTime (ms) = 48.572000
+DecryptTime (ms) = 1.485000
+PRUEBA  62.000000
+EncryptTime (ms) = 0.916000
+KeypairTime (ms) = 59.944000
+DecryptTime (ms) = 1.507000
+PRUEBA  63.000000
+EncryptTime (ms) = 1.038000
+KeypairTime (ms) = 56.438000
+DecryptTime (ms) = 1.514000
+PRUEBA  64.000000
+EncryptTime (ms) = 0.974000
+KeypairTime (ms) = 49.368000
+DecryptTime (ms) = 1.486000
+PRUEBA  65.000000
+EncryptTime (ms) = 0.700000
+KeypairTime (ms) = 52.184000
+DecryptTime (ms) = 2.236000
+PRUEBA  66.000000
+EncryptTime (ms) = 0.709000
+KeypairTime (ms) = 64.413000
+DecryptTime (ms) = 1.519000
+PRUEBA  67.000000
+EncryptTime (ms) = 0.704000
+KeypairTime (ms) = 54.794000
+DecryptTime (ms) = 1.523000
+PRUEBA  68.000000
+EncryptTime (ms) = 0.693000
+KeypairTime (ms) = 55.691000
+DecryptTime (ms) = 2.177000
+PRUEBA  69.000000
+EncryptTime (ms) = 0.713000
+KeypairTime (ms) = 64.448000
+DecryptTime (ms) = 2.209000
+PRUEBA  70.000000
+EncryptTime (ms) = 1.011000
+KeypairTime (ms) = 59.984000
+DecryptTime (ms) = 1.491000
+PRUEBA  71.000000
+EncryptTime (ms) = 0.690000
+KeypairTime (ms) = 48.896000
+DecryptTime (ms) = 1.517000
+PRUEBA  72.000000
+EncryptTime (ms) = 0.711000
+KeypairTime (ms) = 56.081000
+DecryptTime (ms) = 1.508000
+PRUEBA  73.000000
+EncryptTime (ms) = 0.877000
+KeypairTime (ms) = 49.008000
+DecryptTime (ms) = 2.145000
+PRUEBA  74.000000
+EncryptTime (ms) = 0.991000
+KeypairTime (ms) = 63.219000
+DecryptTime (ms) = 2.166000
+PRUEBA  75.000000
+EncryptTime (ms) = 1.011000
+KeypairTime (ms) = 51.320000
+DecryptTime (ms) = 1.492000
+PRUEBA  76.000000
+EncryptTime (ms) = 0.976000
+KeypairTime (ms) = 52.138000
+DecryptTime (ms) = 1.487000
+PRUEBA  77.000000
+EncryptTime (ms) = 0.660000
+KeypairTime (ms) = 49.613000
+DecryptTime (ms) = 1.533000
+PRUEBA  78.000000
+EncryptTime (ms) = 0.931000
+KeypairTime (ms) = 49.693000
+DecryptTime (ms) = 1.492000
+PRUEBA  79.000000
+EncryptTime (ms) = 0.968000
+KeypairTime (ms) = 55.834000
+DecryptTime (ms) = 1.486000
+PRUEBA  80.000000
+EncryptTime (ms) = 0.657000
+KeypairTime (ms) = 48.945000
+DecryptTime (ms) = 1.481000
+PRUEBA  81.000000
+EncryptTime (ms) = 0.701000
+KeypairTime (ms) = 52.889000
+DecryptTime (ms) = 2.224000
+PRUEBA  82.000000
+EncryptTime (ms) = 0.703000
+KeypairTime (ms) = 59.670000
+DecryptTime (ms) = 1.504000
+PRUEBA  83.000000
+EncryptTime (ms) = 0.962000
+KeypairTime (ms) = 49.835000
+DecryptTime (ms) = 1.517000
+PRUEBA  84.000000
+EncryptTime (ms) = 0.715000
+KeypairTime (ms) = 57.207000
+DecryptTime (ms) = 2.193000
+PRUEBA  85.000000
+EncryptTime (ms) = 0.676000
+KeypairTime (ms) = 52.915000
+DecryptTime (ms) = 1.468000
+PRUEBA  86.000000
+EncryptTime (ms) = 0.688000
+KeypairTime (ms) = 51.307000
+DecryptTime (ms) = 2.172000
+PRUEBA  87.000000
+EncryptTime (ms) = 0.668000
+KeypairTime (ms) = 49.662000
+DecryptTime (ms) = 1.497000
+PRUEBA  88.000000
+EncryptTime (ms) = 0.945000
+KeypairTime (ms) = 48.688000
+DecryptTime (ms) = 1.492000
+PRUEBA  89.000000
+EncryptTime (ms) = 1.000000
+KeypairTime (ms) = 51.721000
+DecryptTime (ms) = 1.492000
+PRUEBA  90.000000
+EncryptTime (ms) = 1.039000
+KeypairTime (ms) = 53.909000
+DecryptTime (ms) = 1.494000
+PRUEBA  91.000000
+EncryptTime (ms) = 0.706000
+KeypairTime (ms) = 52.804000
+DecryptTime (ms) = 2.174000
+PRUEBA  92.000000
+EncryptTime (ms) = 0.676000
+KeypairTime (ms) = 54.208000
+DecryptTime (ms) = 2.212000
+PRUEBA  93.000000
+EncryptTime (ms) = 1.060000
+KeypairTime (ms) = 65.254000
+DecryptTime (ms) = 2.193000
+PRUEBA  94.000000
+EncryptTime (ms) = 1.065000
+KeypairTime (ms) = 60.368000
+DecryptTime (ms) = 1.485000
+PRUEBA  95.000000
+EncryptTime (ms) = 1.025000
+KeypairTime (ms) = 49.079000
+DecryptTime (ms) = 1.513000
+PRUEBA  96.000000
+EncryptTime (ms) = 0.747000
+KeypairTime (ms) = 51.552000
+DecryptTime (ms) = 1.532000
+PRUEBA  97.000000
+EncryptTime (ms) = 0.694000
+KeypairTime (ms) = 50.979000
+DecryptTime (ms) = 1.515000
+PRUEBA  98.000000
+EncryptTime (ms) = 1.007000
+KeypairTime (ms) = 50.666000
+DecryptTime (ms) = 1.514000
+PRUEBA  99.000000
+EncryptTime (ms) = 0.829000
+KeypairTime (ms) = 51.012000
+DecryptTime (ms) = 2.180000
+PRUEBA  100.000000
+EncryptTime (ms) = 0.705000
+KeypairTime (ms) = 56.372000
+DecryptTime (ms) = 1.524000
+PRUEBA  1.000000
+EncryptTime (ms) = 0.665000
+KeypairTime (ms) = 44.808000
+DecryptTime (ms) = 1.382000
+PRUEBA  2.000000
+EncryptTime (ms) = 0.704000
+KeypairTime (ms) = 42.861000
+DecryptTime (ms) = 1.447000
+PRUEBA  3.000000
+EncryptTime (ms) = 0.676000
+KeypairTime (ms) = 43.213000
+DecryptTime (ms) = 1.347000
+PRUEBA  4.000000
+EncryptTime (ms) = 0.644000
+KeypairTime (ms) = 42.939000
+DecryptTime (ms) = 1.411000
+PRUEBA  5.000000
+EncryptTime (ms) = 0.722000
+KeypairTime (ms) = 42.946000
+DecryptTime (ms) = 1.341000
+PRUEBA  6.000000
+EncryptTime (ms) = 0.645000
+KeypairTime (ms) = 43.182000
+DecryptTime (ms) = 1.342000
+PRUEBA  7.000000
+EncryptTime (ms) = 0.659000
+KeypairTime (ms) = 42.999000
+DecryptTime (ms) = 1.445000
+PRUEBA  8.000000
+EncryptTime (ms) = 0.669000
+KeypairTime (ms) = 43.391000
+DecryptTime (ms) = 1.346000
+PRUEBA  9.000000
+EncryptTime (ms) = 0.711000
+KeypairTime (ms) = 43.253000
+DecryptTime (ms) = 1.410000
+PRUEBA  10.000000
+EncryptTime (ms) = 0.683000
+KeypairTime (ms) = 43.217000
+DecryptTime (ms) = 1.327000
+PRUEBA  11.000000
+EncryptTime (ms) = 0.681000
+KeypairTime (ms) = 43.054000
+DecryptTime (ms) = 1.413000
+PRUEBA  12.000000
+EncryptTime (ms) = 0.685000
+KeypairTime (ms) = 43.121000
+DecryptTime (ms) = 1.335000
+PRUEBA  13.000000
+EncryptTime (ms) = 0.691000
+KeypairTime (ms) = 43.280000
+DecryptTime (ms) = 1.352000
+PRUEBA  14.000000
+EncryptTime (ms) = 0.646000
+KeypairTime (ms) = 43.321000
+DecryptTime (ms) = 1.348000
+PRUEBA  15.000000
+EncryptTime (ms) = 0.662000
+KeypairTime (ms) = 44.151000
+DecryptTime (ms) = 1.457000
+PRUEBA  16.000000
+EncryptTime (ms) = 0.674000
+KeypairTime (ms) = 43.652000
+DecryptTime (ms) = 1.346000
+PRUEBA  17.000000
+EncryptTime (ms) = 0.661000
+KeypairTime (ms) = 43.746000
+DecryptTime (ms) = 1.351000
+PRUEBA  18.000000
+EncryptTime (ms) = 0.656000
+KeypairTime (ms) = 43.730000
+DecryptTime (ms) = 1.313000
+PRUEBA  19.000000
+EncryptTime (ms) = 0.657000
+KeypairTime (ms) = 43.202000
+DecryptTime (ms) = 1.412000
+PRUEBA  20.000000
+EncryptTime (ms) = 0.687000
+KeypairTime (ms) = 42.694000
+DecryptTime (ms) = 1.347000
+PRUEBA  21.000000
+EncryptTime (ms) = 0.657000
+KeypairTime (ms) = 43.520000
+DecryptTime (ms) = 1.312000
+PRUEBA  22.000000
+EncryptTime (ms) = 0.658000
+KeypairTime (ms) = 42.893000
+DecryptTime (ms) = 1.412000
+PRUEBA  23.000000
+EncryptTime (ms) = 0.657000
+KeypairTime (ms) = 43.346000
+DecryptTime (ms) = 1.314000
+PRUEBA  24.000000
+EncryptTime (ms) = 0.656000
+KeypairTime (ms) = 43.139000
+DecryptTime (ms) = 1.385000
+PRUEBA  25.000000
+EncryptTime (ms) = 0.661000
+KeypairTime (ms) = 43.061000
+DecryptTime (ms) = 1.345000
+PRUEBA  26.000000
+EncryptTime (ms) = 0.658000
+KeypairTime (ms) = 42.897000
+DecryptTime (ms) = 1.343000
+PRUEBA  27.000000
+EncryptTime (ms) = 0.659000
+KeypairTime (ms) = 46.111000
+DecryptTime (ms) = 1.311000
+PRUEBA  28.000000
+EncryptTime (ms) = 0.724000
+KeypairTime (ms) = 43.309000
+DecryptTime (ms) = 1.347000
+PRUEBA  29.000000
+EncryptTime (ms) = 0.658000
+KeypairTime (ms) = 43.176000
+DecryptTime (ms) = 1.312000
+PRUEBA  30.000000
+EncryptTime (ms) = 0.670000
+KeypairTime (ms) = 44.557000
+DecryptTime (ms) = 1.313000
+PRUEBA  31.000000
+EncryptTime (ms) = 0.703000
+KeypairTime (ms) = 43.803000
+DecryptTime (ms) = 1.434000
+PRUEBA  32.000000
+EncryptTime (ms) = 0.686000
+KeypairTime (ms) = 44.290000
+DecryptTime (ms) = 1.345000
+PRUEBA  33.000000
+EncryptTime (ms) = 0.705000
+KeypairTime (ms) = 44.095000
+DecryptTime (ms) = 1.347000
+PRUEBA  34.000000
+EncryptTime (ms) = 0.672000
+KeypairTime (ms) = 43.983000
+DecryptTime (ms) = 1.350000
+PRUEBA  35.000000
+EncryptTime (ms) = 0.673000
+KeypairTime (ms) = 43.675000
+DecryptTime (ms) = 1.346000
+PRUEBA  36.000000
+EncryptTime (ms) = 0.656000
+KeypairTime (ms) = 43.578000
+DecryptTime (ms) = 1.389000
+PRUEBA  37.000000
+EncryptTime (ms) = 0.657000
+KeypairTime (ms) = 43.049000
+DecryptTime (ms) = 1.348000
+PRUEBA  38.000000
+EncryptTime (ms) = 0.645000
+KeypairTime (ms) = 43.121000
+DecryptTime (ms) = 1.312000
+PRUEBA  39.000000
+EncryptTime (ms) = 0.711000
+KeypairTime (ms) = 43.210000
+DecryptTime (ms) = 1.345000
+PRUEBA  40.000000
+EncryptTime (ms) = 0.657000
+KeypairTime (ms) = 43.345000
+DecryptTime (ms) = 1.312000
+PRUEBA  41.000000
+EncryptTime (ms) = 0.666000
+KeypairTime (ms) = 43.072000
+DecryptTime (ms) = 1.409000
+PRUEBA  42.000000
+EncryptTime (ms) = 0.668000
+KeypairTime (ms) = 43.105000
+DecryptTime (ms) = 1.315000
+PRUEBA  43.000000
+EncryptTime (ms) = 0.668000
+KeypairTime (ms) = 43.117000
+DecryptTime (ms) = 1.354000
+PRUEBA  44.000000
+EncryptTime (ms) = 0.667000
+KeypairTime (ms) = 42.705000
+DecryptTime (ms) = 1.312000
+PRUEBA  45.000000
+EncryptTime (ms) = 0.666000
+KeypairTime (ms) = 42.935000
+DecryptTime (ms) = 1.430000
+PRUEBA  46.000000
+EncryptTime (ms) = 0.666000
+KeypairTime (ms) = 43.104000
+DecryptTime (ms) = 1.355000
+PRUEBA  47.000000
+EncryptTime (ms) = 0.671000
+KeypairTime (ms) = 43.306000
+DecryptTime (ms) = 1.314000
+PRUEBA  48.000000
+EncryptTime (ms) = 0.656000
+KeypairTime (ms) = 42.691000
+DecryptTime (ms) = 1.345000
+PRUEBA  49.000000
+EncryptTime (ms) = 0.678000
+KeypairTime (ms) = 43.410000
+DecryptTime (ms) = 1.344000
+PRUEBA  50.000000
+EncryptTime (ms) = 0.656000
+KeypairTime (ms) = 43.010000
+DecryptTime (ms) = 1.314000
+PRUEBA  51.000000
+EncryptTime (ms) = 0.659000
+KeypairTime (ms) = 43.028000
+DecryptTime (ms) = 1.428000
+PRUEBA  52.000000
+EncryptTime (ms) = 0.646000
+KeypairTime (ms) = 42.775000
+DecryptTime (ms) = 1.351000
+PRUEBA  53.000000
+EncryptTime (ms) = 0.656000
+KeypairTime (ms) = 43.185000
+DecryptTime (ms) = 1.345000
+PRUEBA  54.000000
+EncryptTime (ms) = 0.657000
+KeypairTime (ms) = 43.005000
+DecryptTime (ms) = 1.409000
+PRUEBA  55.000000
+EncryptTime (ms) = 0.722000
+KeypairTime (ms) = 42.843000
+DecryptTime (ms) = 1.360000
+PRUEBA  56.000000
+EncryptTime (ms) = 0.681000
+KeypairTime (ms) = 43.363000
+DecryptTime (ms) = 1.401000
+PRUEBA  57.000000
+EncryptTime (ms) = 0.722000
+KeypairTime (ms) = 43.050000
+DecryptTime (ms) = 1.346000
+PRUEBA  58.000000
+KeypairTime (ms) = 43.581000
+DecryptTime (ms) = 1.388000
+PRUEBA  59.000000
+EncryptTime (ms) = 2.143000
+EncryptTime (ms) = 2.549000
+EncryptTime (ms) = 2.058000
+EncryptTime (ms) = 2.133000
+EncryptTime (ms) = 3.011000
+EncryptTime (ms) = 2.460000
+EncryptTime (ms) = 3.418000
+EncryptTime (ms) = 3.400000
+EncryptTime (ms) = 3.485000
+EncryptTime (ms) = 3.468000
+EncryptTime (ms) = 3.426000
+EncryptTime (ms) = 1.996000
+EncryptTime (ms) = 2.033000
+EncryptTime (ms) = 2.370000
+EncryptTime (ms) = 2.122000
+EncryptTime (ms) = 2.182000
+EncryptTime (ms) = 2.369000
+PRUEBA  1.000000
+EncryptTime (ms) = 2.055000
+KeypairTime (ms) = 138.343000
+DecryptTime (ms) = 4.048000
+PRUEBA  2.000000
+EncryptTime (ms) = 2.029000
+KeypairTime (ms) = 145.413000
+DecryptTime (ms) = 4.441000
+PRUEBA  3.000000
+EncryptTime (ms) = 2.008000
+KeypairTime (ms) = 133.072000
+DecryptTime (ms) = 4.125000
+PRUEBA  4.000000
+EncryptTime (ms) = 2.052000
+KeypairTime (ms) = 136.661000
+DecryptTime (ms) = 4.081000
+PRUEBA  5.000000
+EncryptTime (ms) = 2.875000
+KeypairTime (ms) = 139.357000
+DecryptTime (ms) = 6.391000
+PRUEBA  6.000000
+EncryptTime (ms) = 2.051000
+KeypairTime (ms) = 156.043000
+DecryptTime (ms) = 4.159000
+PRUEBA  7.000000
+EncryptTime (ms) = 2.022000
+KeypairTime (ms) = 193.629000
+DecryptTime (ms) = 5.225000
+PRUEBA  8.000000
+EncryptTime (ms) = 2.012000
+KeypairTime (ms) = 137.581000
+DecryptTime (ms) = 4.339000
+PRUEBA  9.000000
+EncryptTime (ms) = 2.003000
+KeypairTime (ms) = 132.874000
+DecryptTime (ms) = 4.759000
+PRUEBA  10.000000
+EncryptTime (ms) = 1.992000
+KeypairTime (ms) = 138.422000
+DecryptTime (ms) = 4.190000
+PRUEBA  11.000000
+EncryptTime (ms) = 2.002000
+KeypairTime (ms) = 133.453000
+DecryptTime (ms) = 5.235000
+PRUEBA  12.000000
+EncryptTime (ms) = 1.999000
+KeypairTime (ms) = 145.497000
+DecryptTime (ms) = 4.512000
+PRUEBA  13.000000
+EncryptTime (ms) = 1.994000
+KeypairTime (ms) = 135.376000
+DecryptTime (ms) = 4.175000
+PRUEBA  14.000000
+EncryptTime (ms) = 2.035000
+KeypairTime (ms) = 133.039000
+DecryptTime (ms) = 4.052000
+PRUEBA  15.000000
+EncryptTime (ms) = 2.721000
+KeypairTime (ms) = 135.271000
+DecryptTime (ms) = 4.348000
+PRUEBA  16.000000
+EncryptTime (ms) = 3.974000
+KeypairTime (ms) = 137.523000
+DecryptTime (ms) = 4.298000
+PRUEBA  17.000000
+EncryptTime (ms) = 2.932000
+KeypairTime (ms) = 136.972000
+DecryptTime (ms) = 4.874000
+PRUEBA  18.000000
+KeypairTime (ms) = 152.978000
+DecryptTime (ms) = 4.100000
+PRUEBA  19.000000
+PRUEBA  1.000000
+EncryptTime (ms) = 2.471000
+KeypairTime (ms) = 154.487000
+DecryptTime (ms) = 6.636000
+PRUEBA  2.000000
+EncryptTime (ms) = 2.342000
+KeypairTime (ms) = 149.512000
+DecryptTime (ms) = 4.387000
+PRUEBA  3.000000
+EncryptTime (ms) = 2.146000
+KeypairTime (ms) = 136.690000
+DecryptTime (ms) = 4.430000
+PRUEBA  4.000000
+EncryptTime (ms) = 2.124000
+KeypairTime (ms) = 151.444000
+DecryptTime (ms) = 4.574000
+PRUEBA  5.000000
+EncryptTime (ms) = 2.114000
+KeypairTime (ms) = 151.620000
+DecryptTime (ms) = 6.198000
+PRUEBA  6.000000
+EncryptTime (ms) = 2.747000
+KeypairTime (ms) = 139.898000
+DecryptTime (ms) = 4.625000
+PRUEBA  7.000000
+EncryptTime (ms) = 2.362000
+KeypairTime (ms) = 150.445000
+DecryptTime (ms) = 5.565000
+PRUEBA  8.000000
+EncryptTime (ms) = 2.122000
+KeypairTime (ms) = 133.273000
+DecryptTime (ms) = 4.045000
+PRUEBA  9.000000
+EncryptTime (ms) = 4.059000
+KeypairTime (ms) = 133.213000
+DecryptTime (ms) = 4.214000
+PRUEBA  10.000000
+EncryptTime (ms) = 2.042000
+KeypairTime (ms) = 142.806000
+DecryptTime (ms) = 6.489000
+PRUEBA  11.000000
+EncryptTime (ms) = 2.199000
+KeypairTime (ms) = 169.560000
+DecryptTime (ms) = 4.145000
+PRUEBA  12.000000
+KeypairTime (ms) = 139.074000
+DecryptTime (ms) = 6.452000
+PRUEBA  13.000000
+PRUEBA  1.000000
+EncryptTime (ms) = 2.253000
+KeypairTime (ms) = 229.552000
+DecryptTime (ms) = 4.127000
+PRUEBA  2.000000
+EncryptTime (ms) = 1.996000
+KeypairTime (ms) = 133.221000
+DecryptTime (ms) = 4.225000
+PRUEBA  3.000000
+EncryptTime (ms) = 2.191000
+KeypairTime (ms) = 133.166000
+DecryptTime (ms) = 4.207000
+PRUEBA  4.000000
+EncryptTime (ms) = 2.333000
+KeypairTime (ms) = 133.857000
+DecryptTime (ms) = 4.523000
+PRUEBA  5.000000
+EncryptTime (ms) = 2.188000
+KeypairTime (ms) = 132.317000
+DecryptTime (ms) = 4.367000
+PRUEBA  6.000000
+EncryptTime (ms) = 2.019000
+KeypairTime (ms) = 132.853000
+DecryptTime (ms) = 4.555000
+PRUEBA  7.000000
+EncryptTime (ms) = 2.090000
+KeypairTime (ms) = 203.605000
+DecryptTime (ms) = 4.481000
+PRUEBA  8.000000
+EncryptTime (ms) = 2.289000
+KeypairTime (ms) = 133.826000
+DecryptTime (ms) = 4.088000
+PRUEBA  9.000000
+EncryptTime (ms) = 2.320000
+KeypairTime (ms) = 136.112000
+DecryptTime (ms) = 4.032000
+PRUEBA  10.000000
+EncryptTime (ms) = 2.059000
+KeypairTime (ms) = 136.906000
+DecryptTime (ms) = 4.018000
+PRUEBA  11.000000
+EncryptTime (ms) = 1.972000
+KeypairTime (ms) = 152.940000
+DecryptTime (ms) = 4.350000
+PRUEBA  12.000000
+EncryptTime (ms) = 1.981000
+KeypairTime (ms) = 136.429000
+DecryptTime (ms) = 4.421000
+PRUEBA  13.000000
+KeypairTime (ms) = 177.312000
+DecryptTime (ms) = 9.421000
+PRUEBA  14.000000
+PRUEBA  1.000000
+KeypairTime (ms) = 134.894000
+DecryptTime (ms) = 4.168000
+PRUEBA  2.000000
+KeypairTime (ms) = 132.767000
+DecryptTime (ms) = 5.343000
+PRUEBA  3.000000
+KeypairTime (ms) = 133.039000
+DecryptTime (ms) = 4.268000
+PRUEBA  4.000000
+KeypairTime (ms) = 164.011000
+DecryptTime (ms) = 4.149000
+PRUEBA  5.000000
+KeypairTime (ms) = 135.972000
+DecryptTime (ms) = 4.602000
+PRUEBA  6.000000
+KeypairTime (ms) = 132.452000
+DecryptTime (ms) = 4.041000
+PRUEBA  7.000000
+KeypairTime (ms) = 134.836000
+DecryptTime (ms) = 5.119000
+PRUEBA  8.000000
+KeypairTime (ms) = 188.713000
+DecryptTime (ms) = 4.102000
+PRUEBA  9.000000
+KeypairTime (ms) = 132.762000
+DecryptTime (ms) = 4.156000
+PRUEBA  10.000000
+KeypairTime (ms) = 157.914000
+DecryptTime (ms) = 4.355000
+PRUEBA  11.000000
+KeypairTime (ms) = 135.568000
+DecryptTime (ms) = 4.327000
+PRUEBA  12.000000
+KeypairTime (ms) = 133.732000
+DecryptTime (ms) = 4.221000
+PRUEBA  13.000000
+KeypairTime (ms) = 156.870000
+DecryptTime (ms) = 4.252000
+PRUEBA  14.000000
+KeypairTime (ms) = 147.458000
+DecryptTime (ms) = 4.233000
+PRUEBA  15.000000
+KeypairTime (ms) = 136.162000
+DecryptTime (ms) = 4.180000
+PRUEBA  16.000000
+KeypairTime (ms) = 133.584000
+DecryptTime (ms) = 4.094000
+PRUEBA  17.000000
+KeypairTime (ms) = 141.054000
+DecryptTime (ms) = 6.287000
+PRUEBA  18.000000
+KeypairTime (ms) = 171.799000
+DecryptTime (ms) = 4.700000
+PRUEBA  19.000000
+KeypairTime (ms) = 135.093000
+DecryptTime (ms) = 6.188000
+PRUEBA  20.000000
+KeypairTime (ms) = 156.711000
+DecryptTime (ms) = 4.987000
+PRUEBA  21.000000
+KeypairTime (ms) = 140.988000
+DecryptTime (ms) = 4.152000
+PRUEBA  22.000000
+KeypairTime (ms) = 135.673000
+DecryptTime (ms) = 4.020000
+PRUEBA  23.000000
+KeypairTime (ms) = 136.618000
+DecryptTime (ms) = 4.122000
+PRUEBA  24.000000
+KeypairTime (ms) = 143.336000
+DecryptTime (ms) = 9.266000
+PRUEBA  25.000000
+KeypairTime (ms) = 155.040000
+DecryptTime (ms) = 4.145000
+PRUEBA  26.000000
+KeypairTime (ms) = 131.173000
+DecryptTime (ms) = 5.087000
+PRUEBA  27.000000
+KeypairTime (ms) = 142.718000
+DecryptTime (ms) = 6.412000
+PRUEBA  28.000000
+KeypairTime (ms) = 147.431000
+DecryptTime (ms) = 4.026000
+PRUEBA  29.000000
+KeypairTime (ms) = 135.525000
+DecryptTime (ms) = 5.066000
+PRUEBA  30.000000
+KeypairTime (ms) = 134.869000
+DecryptTime (ms) = 4.387000
+PRUEBA  31.000000
+KeypairTime (ms) = 136.991000
+DecryptTime (ms) = 6.508000
+PRUEBA  32.000000
+KeypairTime (ms) = 142.732000
+DecryptTime (ms) = 4.064000
+PRUEBA  33.000000
+KeypairTime (ms) = 136.299000
+DecryptTime (ms) = 4.422000
+PRUEBA  34.000000
+KeypairTime (ms) = 137.100000
+DecryptTime (ms) = 4.182000
+PRUEBA  35.000000
+KeypairTime (ms) = 133.807000
+DecryptTime (ms) = 4.474000
+PRUEBA  36.000000
+KeypairTime (ms) = 142.637000
+DecryptTime (ms) = 4.274000
+PRUEBA  37.000000
+KeypairTime (ms) = 136.699000
+DecryptTime (ms) = 4.264000
+PRUEBA  38.000000
+KeypairTime (ms) = 134.384000
+DecryptTime (ms) = 6.411000
+PRUEBA  39.000000
+KeypairTime (ms) = 151.865000
+DecryptTime (ms) = 4.900000
+PRUEBA  40.000000
+KeypairTime (ms) = 138.654000
+DecryptTime (ms) = 6.423000
+PRUEBA  41.000000
+KeypairTime (ms) = 136.911000
+DecryptTime (ms) = 4.086000
+PRUEBA  42.000000
+KeypairTime (ms) = 135.985000
+DecryptTime (ms) = 4.431000
+PRUEBA  43.000000
+KeypairTime (ms) = 135.515000
+DecryptTime (ms) = 4.924000
+PRUEBA  44.000000
+KeypairTime (ms) = 153.040000
+DecryptTime (ms) = 4.387000
+PRUEBA  45.000000
+KeypairTime (ms) = 150.438000
+DecryptTime (ms) = 4.391000
+PRUEBA  46.000000
+KeypairTime (ms) = 149.868000
+DecryptTime (ms) = 4.109000
+PRUEBA  47.000000
+KeypairTime (ms) = 136.835000
+DecryptTime (ms) = 6.614000
+PRUEBA  48.000000
+KeypairTime (ms) = 147.715000
+DecryptTime (ms) = 4.130000
+PRUEBA  49.000000
+KeypairTime (ms) = 156.708000
+DecryptTime (ms) = 9.397000
+PRUEBA  50.000000
+KeypairTime (ms) = 211.976000
+DecryptTime (ms) = 5.129000
+PRUEBA  51.000000
+KeypairTime (ms) = 137.421000
+DecryptTime (ms) = 6.212000
+PRUEBA  52.000000
+KeypairTime (ms) = 155.048000
+DecryptTime (ms) = 4.270000
+PRUEBA  53.000000
+KeypairTime (ms) = 143.983000
+DecryptTime (ms) = 4.189000
+PRUEBA  54.000000
+KeypairTime (ms) = 139.772000
+DecryptTime (ms) = 4.288000
+PRUEBA  55.000000
+KeypairTime (ms) = 138.486000
+DecryptTime (ms) = 4.033000
+PRUEBA  56.000000
+KeypairTime (ms) = 167.312000
+DecryptTime (ms) = 6.060000
+PRUEBA  57.000000
+KeypairTime (ms) = 167.431000
+DecryptTime (ms) = 9.234000
+PRUEBA  58.000000
+KeypairTime (ms) = 204.466000
+DecryptTime (ms) = 5.756000
+PRUEBA  59.000000
+KeypairTime (ms) = 135.267000
+DecryptTime (ms) = 4.508000
+PRUEBA  60.000000
+KeypairTime (ms) = 136.789000
+DecryptTime (ms) = 4.164000
+PRUEBA  61.000000
+KeypairTime (ms) = 141.703000
+DecryptTime (ms) = 4.815000
+PRUEBA  62.000000
+KeypairTime (ms) = 161.088000
+DecryptTime (ms) = 6.424000
+PRUEBA  63.000000
+KeypairTime (ms) = 169.056000
+DecryptTime (ms) = 5.416000
+PRUEBA  64.000000
+KeypairTime (ms) = 136.403000
+DecryptTime (ms) = 5.070000
+PRUEBA  65.000000
+KeypairTime (ms) = 139.750000
+DecryptTime (ms) = 4.092000
+PRUEBA  66.000000
+KeypairTime (ms) = 138.711000
+DecryptTime (ms) = 4.552000
+PRUEBA  67.000000
+KeypairTime (ms) = 134.709000
+DecryptTime (ms) = 4.481000
+PRUEBA  68.000000
+KeypairTime (ms) = 136.525000
+DecryptTime (ms) = 4.578000
+PRUEBA  69.000000
+KeypairTime (ms) = 138.411000
+DecryptTime (ms) = 5.915000
+PRUEBA  70.000000
+KeypairTime (ms) = 149.318000
+DecryptTime (ms) = 4.523000
+PRUEBA  71.000000
+KeypairTime (ms) = 138.922000
+DecryptTime (ms) = 4.931000
+PRUEBA  72.000000
+KeypairTime (ms) = 140.615000
+DecryptTime (ms) = 6.398000
+PRUEBA  73.000000
+KeypairTime (ms) = 171.993000
+DecryptTime (ms) = 6.407000
+PRUEBA  74.000000
+KeypairTime (ms) = 159.692000
+DecryptTime (ms) = 4.877000
+PRUEBA  75.000000
+KeypairTime (ms) = 159.052000
+DecryptTime (ms) = 6.435000
+PRUEBA  76.000000
+KeypairTime (ms) = 151.511000
+DecryptTime (ms) = 5.093000
+PRUEBA  77.000000
+KeypairTime (ms) = 140.558000
+DecryptTime (ms) = 4.076000
+PRUEBA  78.000000
+KeypairTime (ms) = 136.754000
+DecryptTime (ms) = 4.248000
+PRUEBA  79.000000
+KeypairTime (ms) = 136.996000
+DecryptTime (ms) = 4.662000
+PRUEBA  80.000000
+KeypairTime (ms) = 138.611000
+DecryptTime (ms) = 5.683000
+PRUEBA  81.000000
+KeypairTime (ms) = 138.467000
+DecryptTime (ms) = 4.534000
+PRUEBA  82.000000
+KeypairTime (ms) = 142.764000
+DecryptTime (ms) = 4.415000
+PRUEBA  83.000000
+KeypairTime (ms) = 136.364000
+DecryptTime (ms) = 4.418000
+PRUEBA  84.000000
+KeypairTime (ms) = 135.060000
+DecryptTime (ms) = 5.042000
+PRUEBA  85.000000
+KeypairTime (ms) = 151.585000
+DecryptTime (ms) = 4.339000
+PRUEBA  86.000000
+KeypairTime (ms) = 140.202000
+DecryptTime (ms) = 5.235000
+PRUEBA  87.000000
+KeypairTime (ms) = 146.695000
+DecryptTime (ms) = 4.223000
+PRUEBA  88.000000
+KeypairTime (ms) = 134.910000
+DecryptTime (ms) = 4.337000
+PRUEBA  89.000000
+KeypairTime (ms) = 142.706000
+DecryptTime (ms) = 6.520000
+PRUEBA  90.000000
+KeypairTime (ms) = 168.697000
+DecryptTime (ms) = 6.232000
+PRUEBA  91.000000
+KeypairTime (ms) = 162.208000
+DecryptTime (ms) = 6.052000
+PRUEBA  92.000000
