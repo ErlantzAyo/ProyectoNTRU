@@ -44,19 +44,22 @@
 #define SERVER_ADDRESS "127.0.0.1" /* Direccion IP */
 #define PORT 8080                  /* puerto */
 
-int KEMCliente(int, double *);
+int KEMCliente(int, double *, uint8_t*);
 static void printBstr(const char *, const uint8_t *, size_t);
 double TiempoProceso(clock_t, clock_t);
 void EscribirFichero(char *, char *, double);
 static int encrypt(const uint8_t *key, uint8_t *dec, uint8_t *nonce,
                    uint8_t *enc);
 static void log8(char *text, uint8_t *data, size_t len);
+void sendSparkle256(int sockfd, uint8_t* shared_secret, uint8_t* msg);
 
 int main() {
   int sockfd;
   struct sockaddr_in servaddr;
 
   double encTime;
+
+  uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
 
   /* Socket creation */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -83,18 +86,29 @@ int main() {
   printf("connected to the server..\n");
 
   for (int i = 0; i < 100; i++) {
-    KEMCliente(sockfd, &encTime);
+    KEMCliente(sockfd, &encTime, shared_secret);
     EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
+
+// Message to send with the simmetric encription
+    uint8_t msg[SPARKLE_MAX_SIZE] = "Temp: 25.0";
+    static uint8_t val = 0;
+    if (val >= 9) val = 0;
+    val++;
+    msg[9] = '0' + val;
+
+    //Sparkle Simmetric encription
+    sendSparkle256(sockfd, shared_secret, msg);
+
   }
 
   /* close the socket */
   close(sockfd);
 }
 
-int KEMCliente(int sockfd, double *encTime) {
+int KEMCliente(int sockfd, double *encTime, uint8_t* shared_secret) {
   uint8_t public_key[NTRU_PUBLICKEYBYTES];
   uint8_t ciphertext[NTRU_CIPHERTEXTBYTES];
-  uint8_t shared_secret_e[NTRU_SHAREDKEYBYTES];
+
   int rc;
   clock_t tic, toc;
 
@@ -102,7 +116,7 @@ int KEMCliente(int sockfd, double *encTime) {
 
   printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
   tic = clock();
-  rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_enc(ciphertext, shared_secret_e,
+  rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_enc(ciphertext, shared_secret,
                                                    public_key);
   toc = clock();
   *encTime = TiempoProceso(tic, toc);
@@ -110,26 +124,24 @@ int KEMCliente(int sockfd, double *encTime) {
     fprintf(stderr, "ERROR: crypto_kem_enc failed!\n");
     return -2;
   }
-  printBstr("CLIENT: CT=", ciphertext, NTRU_CIPHERTEXTBYTES);
-  printBstr("CLIENT: SSE=", shared_secret_e, NTRU_SHAREDKEYBYTES);
+  //printBstr("CLIENT: CT=", ciphertext, NTRU_CIPHERTEXTBYTES);
+  printBstr("CLIENT: SSE=", shared_secret, NTRU_SHAREDKEYBYTES);
 
   write(sockfd, ciphertext, sizeof(ciphertext));
 
+  return 0;
+}
+
+void sendSparkle256(int sockfd, uint8_t* shared_secret, uint8_t* msg){
   // Send payload (nonce+encData)
-  uint8_t msg[SPARKLE_MAX_SIZE] = "Temp: 25.0";
-  static uint8_t val = 0;
-  if (val >= 9) val = 0;
-  val++;
-  msg[9] = '0' + val;
+
   uint8_t nonce[SPARKLE_MAX_SIZE];
   uint8_t enc[SPARKLE_MAX_SIZE];
-  encrypt(shared_secret_e, msg, nonce, enc);
+  encrypt(shared_secret, msg, nonce, enc);
   log8("nonce: ", nonce, sizeof nonce);
   log8("enc  : ", enc, sizeof enc);
   write(sockfd, nonce, SPARKLE_MAX_SIZE);
   write(sockfd, enc, SPARKLE_MAX_SIZE);
-
-  return 0;
 }
 
 static void printBstr(const char *S, const uint8_t *key, size_t L) {
