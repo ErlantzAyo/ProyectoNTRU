@@ -42,12 +42,13 @@
 #define BACKLOG 5                  /* Max. client en espera de conectar  */
 
 static void printBstr(const char *, const uint8_t *, size_t);
-int KEM(int, double *, double *);
+int KEM(int, double *, double *,  uint8_t* shared_secret);
 double TiempoProceso(clock_t, clock_t);
 void EscribirFichero(char *nombreFichero, char *variable, double dato);
 static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
                    uint8_t *dec);
 static void log8(char *text, uint8_t *data, size_t len);
+void ReceiveSparkle256(int connfd, uint8_t* shared_secret);
 
 int main(int argc, char *argv[]) {
   int sockfd, connfd, n_conexion = 0; /* sockets*/
@@ -56,6 +57,8 @@ int main(int argc, char *argv[]) {
 
   /* variables de tiempo de proceso*/
   double kpTime, decTime;
+
+  uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
 
   /* creacion de socket*/
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -107,7 +110,8 @@ int main(int argc, char *argv[]) {
       for (int i = 0; i < 100; i++) {
         printf("CONEXION %d:\n", ++n_conexion);
         EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
-        KEM(connfd, &kpTime, &decTime);
+        KEM(connfd, &kpTime, &decTime, shared_secret);
+        ReceiveSparkle256(connfd,shared_secret);
         EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
         EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
       }
@@ -128,11 +132,11 @@ int main(int argc, char *argv[]) {
                 }
             } */
 
-int KEM(int connfd, double *kpTime, double *decTime) {
+int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret) {
   uint8_t public_key[NTRU_PUBLICKEYBYTES];
   uint8_t secret_key[NTRU_SECRETKEYBYTES];
   uint8_t ciphertext[NTRU_CIPHERTEXTBYTES];
-  uint8_t shared_secret_d[NTRU_SHAREDKEYBYTES];
+
   int rc;
 
   clock_t tic, toc;
@@ -155,7 +159,7 @@ int KEM(int connfd, double *kpTime, double *decTime) {
   printBstr("SERVER: CT=", ciphertext, NTRU_CIPHERTEXTBYTES);
 
   tic = clock();
-  rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_dec(shared_secret_d, ciphertext,
+  rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_dec(shared_secret, ciphertext,
                                                    secret_key);
   toc = clock();
   *decTime = TiempoProceso(tic, toc);
@@ -164,10 +168,14 @@ int KEM(int connfd, double *kpTime, double *decTime) {
     return -3;
   }
 
-  printBstr("SERVER: SSD=", shared_secret_d, NTRU_SHAREDKEYBYTES);
+  printBstr("SERVER: SSD=", shared_secret, NTRU_SHAREDKEYBYTES);
   printf("\n Keypair time (ms): %f ", *kpTime);
   printf("\n Decrypt time (ms): %f \n", *decTime);
 
+
+  return 0;
+}
+void ReceiveSparkle256(int connfd, uint8_t* shared_secret){
   // Extract payload (nonce+encData)
   uint8_t nonce[SPARKLE_MAX_SIZE];
   read(connfd, nonce, sizeof nonce);
@@ -175,10 +183,10 @@ int KEM(int connfd, double *kpTime, double *decTime) {
   read(connfd, msg, sizeof msg);
   log8("nonce: ", nonce, sizeof nonce);
   log8("enc  : ", msg, sizeof msg);
-  decrypt(shared_secret_d, nonce, msg, msg);
+  decrypt(shared_secret, nonce, msg, msg);
   printf("dec: %s\n", msg);
   printf("\n");
-  return 0;
+
 }
 
 static void printBstr(const char *S, const uint8_t *key, size_t L) {
