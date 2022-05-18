@@ -53,7 +53,7 @@ static int encrypt(const uint8_t *key, uint8_t *dec, uint8_t *nonce,
 static void log8(char *text, uint8_t *data, size_t len);
 void sendSparkle256(int sockfd, uint8_t* shared_secret, uint8_t* msg);
 
-int main() {
+int main(int argc, char *argv[]) {
   int sockfd;
   struct sockaddr_in servaddr;
 
@@ -85,21 +85,29 @@ int main() {
 
   printf("connected to the server..\n");
 
-  for (int i = 0; i < 100; i++) {
-    KEMCliente(sockfd, &encTime, shared_secret);
-    EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
+// for (int i = 0; i < 100; i++) {
 
-// Message to send with the simmetric encription
-    uint8_t msg[SPARKLE_MAX_SIZE] = "Temp: 25.0";
-    static uint8_t val = 0;
-    if (val >= 9) val = 0;
-    val++;
-    msg[9] = '0' + val;
+    // Message to send with the simmetric encription
+        uint8_t msg[SPARKLE_MAX_SIZE] = "Temp: 25.0";
+        static uint8_t val = 0;
+        if (val >= 9) val = 0;
+        val++;
+        msg[9] = '0' + val;
 
-    //Sparkle Simmetric encription
-    sendSparkle256(sockfd, shared_secret, msg);
+   if(argc ==2 && strcmp(argv[1],"raw") == 0){
+      write(sockfd, msg, sizeof(msg));
+    }else{
 
-  }
+      KEMCliente(sockfd, &encTime, shared_secret);
+      EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
+
+      //Sparkle Simmetric encription
+      sendSparkle256(sockfd, shared_secret, msg);
+
+ }
+
+
+//  }
 
   /* close the socket */
   close(sockfd);

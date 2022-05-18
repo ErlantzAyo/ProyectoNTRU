@@ -59,6 +59,7 @@ int main(int argc, char *argv[]) {
   double kpTime, decTime;
 
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
+  uint8_t msg[SPARKLE_MAX_SIZE];
 
   /* creacion de socket*/
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -107,18 +108,28 @@ int main(int argc, char *argv[]) {
       return -1;
     } else {
       // KEM NTRU
-      for (int i = 0; i < 100; i++) {
-        printf("CONEXION %d:\n", ++n_conexion);
-        EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
-        KEM(connfd, &kpTime, &decTime, shared_secret);
-        ReceiveSparkle256(connfd,shared_secret);
-        EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
-        EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
+  //    for (int i = 0; i < 100; i++) {
+
+       if(argc == 2 && strcmp(argv[1],"raw") == 0){
+
+            read(connfd, msg, sizeof(msg));
+            printf("Raw message: %s\n", msg);
+            printf("\n");
+
+          }else{
+
+            printf("CONEXION %d:\n", ++n_conexion);
+            EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
+            KEM(connfd, &kpTime, &decTime, shared_secret);
+            ReceiveSparkle256(connfd,shared_secret);
+            EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
+            EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
+         }
+    //    }
+        close(connfd);
       }
-      close(connfd);
     }
   }
-}
 
 /* while (1)  {
 
