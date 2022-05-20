@@ -42,13 +42,17 @@
 #define BACKLOG 5                  /* Max. client en espera de conectar  */
 
 static void printBstr(const char *, const uint8_t *, size_t);
-int KEM(int, double *, double *,  uint8_t* shared_secret);
+int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
+  int argc, char *argv[]);
 double TiempoProceso(clock_t, clock_t);
 void EscribirFichero(char *nombreFichero, char *variable, double dato);
 static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
                    uint8_t *dec);
 static void log8(char *text, uint8_t *data, size_t len);
 void ReceiveSparkle256(int connfd, uint8_t* shared_secret);
+void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len);
+void readFileKey(char *nombreFichero, uint8_t* key, size_t len);
+
 
 int main(int argc, char *argv[]) {
   int sockfd, connfd, n_conexion = 0; /* sockets*/
@@ -99,7 +103,7 @@ int main(int argc, char *argv[]) {
 
   len = sizeof(client);
 
-  /* acepta los datos provenientes de los seocket de manera interactiva */
+  /* acepta los datos provenientes de los sockets de manera interactiva */
   while (1) {
     connfd = accept(sockfd, (struct sockaddr *)&client, &len);
     if (connfd < 0) {
@@ -108,7 +112,7 @@ int main(int argc, char *argv[]) {
       return -1;
     } else {
       // KEM NTRU
-  //    for (int i = 0; i < 100; i++) {
+//      for (int i = 0; i < 100; i++) {
 
        if(argc == 2 && strcmp(argv[1],"raw") == 0){
 
@@ -120,12 +124,12 @@ int main(int argc, char *argv[]) {
 
             printf("CONEXION %d:\n", ++n_conexion);
             EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
-            KEM(connfd, &kpTime, &decTime, shared_secret);
+            KEM(connfd, &kpTime, &decTime, shared_secret, argc, argv);
             ReceiveSparkle256(connfd,shared_secret);
             EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
             EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
          }
-    //    }
+//        }
         close(connfd);
       }
     }
@@ -143,7 +147,8 @@ int main(int argc, char *argv[]) {
                 }
             } */
 
-int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret) {
+int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
+  int argc, char *argv[]) {
   uint8_t public_key[NTRU_PUBLICKEYBYTES];
   uint8_t secret_key[NTRU_SECRETKEYBYTES];
   uint8_t ciphertext[NTRU_CIPHERTEXTBYTES];
@@ -152,17 +157,26 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret) {
 
   clock_t tic, toc;
 
-  tic = clock();
-  rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(public_key, secret_key);
-  toc = clock();
-  *kpTime = TiempoProceso(tic, toc);
-  if (rc != 0) {
-    fprintf(stderr, "ERROR: crypto_kem_keypair failed!\n");
-    return -1;
-  }
+    //Case ./serverKEM key --> read keys from FILE.
+  if(argc == 2 && strcmp(argv[1],"key") == 0){
 
-  printBstr("SERVER: PK=", public_key, NTRU_PUBLICKEYBYTES);
-  // printBstr("SERVER: SK=", secret_key,NTRU_SECRETKEYBYTES);
+    //WriteFileKey("../SK.bin",secret_key,sizeof(secret_key));
+    //WriteFileKey("../PK.bin",public_key,sizeof(public_key));
+    readFileKey("../SK.bin",secret_key,sizeof(secret_key));
+    readFileKey("../PK.bin",public_key,sizeof(public_key));
+
+  }else{
+    tic = clock();
+    rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(public_key, secret_key);
+    toc = clock();
+    *kpTime = TiempoProceso(tic, toc);
+    if (rc != 0) {
+      fprintf(stderr, "ERROR: crypto_kem_keypair failed!\n");
+      return -1;
+    }
+  }
+  //printBstr("SERVER: PK=", public_key, NTRU_PUBLICKEYBYTES);
+  //printBstr("SERVER: SK=", secret_key,NTRU_SECRETKEYBYTES);
   write(connfd, public_key, sizeof(public_key));
 
   read(connfd, ciphertext, sizeof(ciphertext));
@@ -230,6 +244,30 @@ void EscribirFichero(char *nombreFichero, char *variable, double dato) {
   fprintf(fp, "%s %f\n", variable, dato);
   fclose(fp);
 }
+void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len) {
+  FILE *fp;
+  fp = fopen(nombreFichero, "w");
+
+  if (fp == NULL) {
+    printf("Error!");
+    exit(1);
+  }
+  fwrite(key, 1,len,fp);
+  fclose(fp);
+}
+void readFileKey(char *nombreFichero, uint8_t* key, size_t len) {
+  FILE *fp;
+  fp = fopen(nombreFichero, "r");
+
+  if (fp == NULL) {
+    printf("Error!");
+    exit(1);
+  }
+  fread(key, 1,len,fp);
+  printBstr("KEY IN FILE:", key, len);
+  fclose(fp);
+}
+
 
 static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
                    uint8_t *dec) {
