@@ -52,7 +52,7 @@ static void log8(char *text, uint8_t *data, size_t len);
 void ReceiveSparkle256(int connfd, uint8_t* shared_secret);
 void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len);
 void readFileKey(char *nombreFichero, uint8_t* key, size_t len);
-
+void generateKeypair();
 
 int main(int argc, char *argv[]) {
   int sockfd, connfd, n_conexion = 0; /* sockets*/
@@ -65,6 +65,12 @@ int main(int argc, char *argv[]) {
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
   uint8_t msg[SPARKLE_MAX_SIZE];
 
+
+  if (argc == 2 && strcmp(argv[1],"generate") == 0) {
+
+    generateKeypair();
+    exit(EXIT_SUCCESS);
+  }
   /* creacion de socket*/
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
@@ -119,8 +125,8 @@ int main(int argc, char *argv[]) {
             read(connfd, msg, sizeof(msg));
             printf("Raw message: %s\n", msg);
             printf("\n");
-
-          }else{
+          }
+          else{
 
             printf("CONEXION %d:\n", ++n_conexion);
             EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
@@ -199,6 +205,18 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
 
 
   return 0;
+}
+void generateKeypair(){
+  uint8_t public_key[NTRU_PUBLICKEYBYTES];
+  uint8_t secret_key[NTRU_SECRETKEYBYTES];
+
+  PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(public_key, secret_key);
+
+  WriteFileKey("../SK.bin",secret_key,sizeof(secret_key));
+  WriteFileKey("../PK.bin",public_key,sizeof(public_key));
+  readFileKey("../SK.bin",secret_key,sizeof(secret_key));
+  readFileKey("../PK.bin",public_key,sizeof(public_key));
+
 }
 void ReceiveSparkle256(int connfd, uint8_t* shared_secret){
   // Extract payload (nonce+encData)
