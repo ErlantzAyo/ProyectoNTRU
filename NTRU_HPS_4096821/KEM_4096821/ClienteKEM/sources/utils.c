@@ -6,10 +6,18 @@
 #include <stdint.h>
 /*Benchmark*/
 #include <time.h>
-
-#include "utils.h"
 #include "file_io.h"
 
+#include "utils.h"
+
+
+void getTempMsg (uint8_t* msg){
+  double dato = 0;
+  dato = readFileDouble("/sys/class/thermal/thermal_zone0/temp");
+  dato = dato/1000;
+  //printf("\nDATO = %f",dato);
+  sprintf((char*)msg,"Temp = %.2fº",dato);
+}
 
 void printBstr(const char *S, const uint8_t *key, size_t L) {
   size_t i;
@@ -36,12 +44,4 @@ void log8(char *text, uint8_t *data, size_t len) {
   for (size_t r = 0; r < LIMIT; r++) printf("%02x", *data++);
   if (len > LIMIT) printf("...%zu bytes", len);
   printf("\n");
-}
-
-void getTemperatureMsg (char* msg){
-  double dato = 0;
-  dato = readFileDouble("/sys/class/thermal/thermal_zone0/temp");
-  dato = dato/1000;
-  printf("\nDATO = %f",dato);
-  sprintf(msg,"Temp = %.2fº",dato);
 }

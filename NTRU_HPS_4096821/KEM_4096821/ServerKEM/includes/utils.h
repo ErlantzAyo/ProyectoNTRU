@@ -5,8 +5,7 @@
 /*Benchmark*/
 #include <time.h>
 
-
+void getTempMsg (uint8_t*);
 void printBstr(const char *, const uint8_t *, size_t);
  void log8(char *text, uint8_t *data, size_t len);
 double TiempoProceso(clock_t, clock_t);
-void getTemperatureMsg (char* msg);

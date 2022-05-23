@@ -29,7 +29,7 @@ double dato;
     exit(1);
   }
   fscanf(fp, "%lf",&dato);
-  printf("\nDATO = %f",dato);
+  //printf("\nDATO = %f",dato);
   return dato;
   fclose(fp);
 }
