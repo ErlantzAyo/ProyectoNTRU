@@ -39,18 +39,20 @@
 
 /*Benchmark*/
 #include <time.h>
+/*File management*/
+#include "file_io.h"
+/*Utils*/
+#include "utils.h"
+
+
 
 /* Parametros del cliente */
 #define SERVER_ADDRESS "127.0.0.1" /* Direccion IP */
 #define PORT 8080                  /* puerto */
 
 int KEMCliente(int, double *, uint8_t*);
-static void printBstr(const char *, const uint8_t *, size_t);
-double TiempoProceso(clock_t, clock_t);
-void EscribirFichero(char *, char *, double);
 static int encrypt(const uint8_t *key, uint8_t *dec, uint8_t *nonce,
                    uint8_t *enc);
-static void log8(char *text, uint8_t *data, size_t len);
 void sendSparkle256(int sockfd, uint8_t* shared_secret, uint8_t* msg);
 
 int main(int argc, char *argv[]) {
@@ -152,35 +154,6 @@ void sendSparkle256(int sockfd, uint8_t* shared_secret, uint8_t* msg){
   write(sockfd, enc, SPARKLE_MAX_SIZE);
 }
 
-static void printBstr(const char *S, const uint8_t *key, size_t L) {
-  size_t i;
-  printf("%s", S);
-  for (i = 0; i < L; i++) {
-    printf("%02X", key[i]);
-  }
-  if (L == 0) {
-    printf("00");
-  }
-  printf("\n\n");
-}
-double TiempoProceso(clock_t tic, clock_t toc) {
-  double elapsed = (double)(toc - tic) * 1000.0 / CLOCKS_PER_SEC;
-
-  return elapsed;
-}
-
-void EscribirFichero(char *nombreFichero, char *variable, double dato) {
-  FILE *fp;
-  fp = fopen(nombreFichero, "a");
-
-  if (fp == NULL) {
-    printf("Error!");
-    exit(1);
-  }
-
-  fprintf(fp, "%s %f\n", variable, dato);
-  fclose(fp);
-}
 
 static int encrypt(const uint8_t *key, uint8_t *dec, uint8_t *nonce,
                    uint8_t *enc) {
@@ -192,13 +165,4 @@ static int encrypt(const uint8_t *key, uint8_t *dec, uint8_t *nonce,
   ProcessPlainText(&state, enc, dec, SPARKLE_MAX_SIZE);
   Finalize(&state, key);
   return 0;
-}
-
-static void log8(char *text, uint8_t *data, size_t len) {
-  // size_t LIMIT = len;
-  size_t LIMIT = len < 32 ? len : 32;
-  printf("%s", text);
-  for (size_t r = 0; r < LIMIT; r++) printf("%02x", *data++);
-  if (len > LIMIT) printf("...%zu bytes", len);
-  printf("\n");
 }

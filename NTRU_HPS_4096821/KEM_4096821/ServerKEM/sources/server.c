@@ -12,14 +12,11 @@
 #include <errno.h>
 #include <stdio.h>
 #include <string.h>
-
-/*KEM*/
-
 #include <assert.h>
-#include <errno.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <sys/stat.h>
+/*KEM*/
 
 #include "api.h"
 #include "params.h"
@@ -32,8 +29,11 @@
 #define SPARKLE_MAX_SIZE 32
 
 /*Benchmark*/
-
 #include <time.h>
+/*File management*/
+#include "file_io.h"
+/*Utils*/
+#include "utils.h"
 
 /* Parametros del servidor */
 #define SERV_PORT 8080             /* puerto */
@@ -41,17 +41,12 @@
 #define BUF_SIZE 1000              /* Buffer rx, tx max size  */
 #define BACKLOG 5                  /* Max. client en espera de conectar  */
 
-static void printBstr(const char *, const uint8_t *, size_t);
+
 int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
   int argc, char *argv[]);
-double TiempoProceso(clock_t, clock_t);
-void EscribirFichero(char *nombreFichero, char *variable, double dato);
 static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
                    uint8_t *dec);
-static void log8(char *text, uint8_t *data, size_t len);
 void ReceiveSparkle256(int connfd, uint8_t* shared_secret);
-void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len);
-void readFileKey(char *nombreFichero, uint8_t* key, size_t len);
 void generateKeypair();
 
 int main(int argc, char *argv[]) {
@@ -66,6 +61,7 @@ int main(int argc, char *argv[]) {
   uint8_t msg[SPARKLE_MAX_SIZE];
 
 
+//./ServerKEM generate --> generate PK SK keys ande SAVES on FILE
   if (argc == 2 && strcmp(argv[1],"generate") == 0) {
 
     generateKeypair();
@@ -153,6 +149,7 @@ int main(int argc, char *argv[]) {
                 }
             } */
 
+
 int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
   int argc, char *argv[]) {
   uint8_t public_key[NTRU_PUBLICKEYBYTES];
@@ -166,8 +163,6 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
     //Case ./serverKEM key --> read keys from FILE.
   if(argc == 2 && strcmp(argv[1],"key") == 0){
 
-    //WriteFileKey("../SK.bin",secret_key,sizeof(secret_key));
-    //WriteFileKey("../PK.bin",public_key,sizeof(public_key));
     readFileKey("../SK.bin",secret_key,sizeof(secret_key));
     readFileKey("../PK.bin",public_key,sizeof(public_key));
 
@@ -232,61 +227,6 @@ void ReceiveSparkle256(int connfd, uint8_t* shared_secret){
 
 }
 
-static void printBstr(const char *S, const uint8_t *key, size_t L) {
-  size_t i;
-  printf("%s", S);
-  for (i = 0; i < L; i++) {
-    printf("%02X", key[i]);
-  }
-  if (L == 0) {
-    printf("00");
-  }
-  printf("\n\n");
-}
-
-double TiempoProceso(clock_t tic, clock_t toc) {
-  double elapsed = (double)(toc - tic) * 1000.0 / CLOCKS_PER_SEC;
-
-  return elapsed;
-}
-
-void EscribirFichero(char *nombreFichero, char *variable, double dato) {
-  FILE *fp;
-  fp = fopen(nombreFichero, "a");
-
-  if (fp == NULL) {
-    printf("Error!");
-    exit(1);
-  }
-
-  fprintf(fp, "%s %f\n", variable, dato);
-  fclose(fp);
-}
-void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len) {
-  FILE *fp;
-  fp = fopen(nombreFichero, "w");
-
-  if (fp == NULL) {
-    printf("Error!");
-    exit(1);
-  }
-  fwrite(key, 1,len,fp);
-  fclose(fp);
-}
-void readFileKey(char *nombreFichero, uint8_t* key, size_t len) {
-  FILE *fp;
-  fp = fopen(nombreFichero, "r");
-
-  if (fp == NULL) {
-    printf("Error!");
-    exit(1);
-  }
-  fread(key, 1,len,fp);
-  printBstr("KEY IN FILE:", key, len);
-  fclose(fp);
-}
-
-
 static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
                    uint8_t *dec) {
   SparkleState state = {{1}, {1}};
@@ -296,13 +236,4 @@ static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
   Initialize(&state, key, nonce);
   ProcessCipherText(&state, dec, enc, SPARKLE_MAX_SIZE);
   return 0;
-}
-
-static void log8(char *text, uint8_t *data, size_t len) {
-  // size_t LIMIT = len;
-  size_t LIMIT = len < 32 ? len : 32;
-  printf("%s", text);
-  for (size_t r = 0; r < LIMIT; r++) printf("%02x", *data++);
-  if (len > LIMIT) printf("...%zu bytes", len);
-  printf("\n");
 }
