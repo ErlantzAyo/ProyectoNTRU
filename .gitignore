@@ -2,4 +2,6 @@
 **/objects/
 **/bin/
 datos.txt
+*.bin
+*.pem
 
