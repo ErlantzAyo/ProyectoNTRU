@@ -6,9 +6,18 @@
 #include <stdint.h>
 /*Benchmark*/
 #include <time.h>
+#include "file_io.h"
 
 #include "utils.h"
 
+
+void getTempMsg (uint8_t* msg){
+  double dato = 0;
+  dato = readFileDouble("/sys/class/thermal/thermal_zone0/temp");
+  dato = dato/1000;
+  //printf("\nDATO = %f",dato);
+  sprintf((char*)msg,"Temp = %.2fº",dato);
+}
 
 void printBstr(const char *S, const uint8_t *key, size_t L) {
   size_t i;
