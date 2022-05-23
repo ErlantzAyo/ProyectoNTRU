@@ -60,7 +60,6 @@ int main(int argc, char *argv[]) {
   struct sockaddr_in servaddr;
 
   double encTime;
-
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
 
   /* Socket creation */
@@ -87,14 +86,21 @@ int main(int argc, char *argv[]) {
 
   printf("connected to the server..\n");
 
+
 // for (int i = 0; i < 100; i++) {
 
     // Message to send with the simmetric encription
-        uint8_t msg[SPARKLE_MAX_SIZE] = "Temp: 25.0";
+    uint8_t msg[SPARKLE_MAX_SIZE];
+    getTemperatureMsg (msg);
+    //readFileDouble("/sys/class/thermal/thermal_zone0/temp",dato,sizeof(dato));
+
+    /*uint8_t msg[SPARKLE_MAX_SIZE] = "Temp: 25.0";
         static uint8_t val = 0;
         if (val >= 9) val = 0;
         val++;
         msg[9] = '0' + val;
+        */
+
 
    if(argc ==2 && strcmp(argv[1],"raw") == 0){
       write(sockfd, msg, sizeof(msg));

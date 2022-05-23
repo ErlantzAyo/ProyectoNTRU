@@ -19,6 +19,20 @@ void EscribirFichero(char *nombreFichero, char *variable, double dato) {
   fprintf(fp, "%s %f\n", variable, dato);
   fclose(fp);
 }
+double readFileDouble(char *nombreFichero) {
+  FILE *fp;
+double dato;
+  fp = fopen(nombreFichero, "r");
+
+  if (fp == NULL) {
+    printf("Error! NO existe el archivo %s", nombreFichero);
+    exit(1);
+  }
+  fscanf(fp, "%lf",&dato);
+  printf("\nDATO = %f",dato);
+  return dato;
+  fclose(fp);
+}
 void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len) {
   FILE *fp;
   fp = fopen(nombreFichero, "w");

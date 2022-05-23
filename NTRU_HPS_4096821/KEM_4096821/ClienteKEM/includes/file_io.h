@@ -7,5 +7,6 @@
 
 
 void EscribirFichero(char *nombreFichero, char *variable, double dato);
+double readFileDouble(char *nombreFichero);
 void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len);
 void readFileKey(char *nombreFichero, uint8_t* key, size_t len);
