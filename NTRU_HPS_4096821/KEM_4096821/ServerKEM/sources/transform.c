@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "transform.h"
 
 static char encoding_table[] = {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
@@ -82,6 +83,7 @@ size_t hex_to_uint8(const char *src, uint8_t *dest) {
   return i;
 }
 
+/*
 int main(int argc, char const *argv[]) {
   unsigned char arr[] = {0xa1, 0xa2, 0x11, 0x12, 0x00};
   size_t len = sizeof(arr);
@@ -90,4 +92,4 @@ int main(int argc, char const *argv[]) {
 
   printf("base64: %s\n", out);
   return 0;
-}
+} */

@@ -131,7 +131,7 @@ int main(int argc, char *argv[]) {
             EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
             EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
          }
-//        }
+      //  }
         close(connfd);
       }
     }
@@ -163,8 +163,10 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
     //Case ./serverKEM key --> read keys from FILE.
   if(argc == 2 && strcmp(argv[1],"key") == 0){
 
-    readFileKey("../SK.bin",secret_key,sizeof(secret_key));
-    readFileKey("../PK.bin",public_key,sizeof(public_key));
+    readFileKey("../SK.pem",secret_key,sizeof(secret_key));
+    printBstr("READ SECRET KEY = ",secret_key,sizeof secret_key);
+    readFileKey("../PK.pem",public_key,sizeof(public_key));
+    printBstr("READ PU KEY = ",secret_key,sizeof secret_key);
 
   }else{
     tic = clock();
@@ -206,11 +208,8 @@ void generateKeypair(){
   uint8_t secret_key[NTRU_SECRETKEYBYTES];
 
   PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(public_key, secret_key);
-
-  WriteFileKey("../SK.bin",secret_key,sizeof(secret_key));
-  WriteFileKey("../PK.bin",public_key,sizeof(public_key));
-  readFileKey("../SK.bin",secret_key,sizeof(secret_key));
-  readFileKey("../PK.bin",public_key,sizeof(public_key));
+  WriteFileKey("../SK.pem",secret_key,sizeof(secret_key));
+  WriteFileKey("../PK.pem",public_key,sizeof(public_key));
 
 }
 void ReceiveSparkle256(int connfd, uint8_t* shared_secret){
