@@ -9,12 +9,12 @@
 #include <sys/types.h>
 
 /* strings / errors*/
-#include <errno.h>
-#include <stdio.h>
-#include <string.h>
 #include <assert.h>
+#include <errno.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <sys/stat.h>
 /*KEM*/
 
@@ -26,7 +26,6 @@
 #include "../../sparkle256/api.h"
 #include "../../sparkle256/encrypt.c"  // hard included since encrypt.h is not in lib implementation
 #include "../../sparkle256/sparkle_ref.h"
-#define SPARKLE_MAX_SIZE 32
 
 /*Benchmark*/
 #include <time.h>
@@ -41,12 +40,12 @@
 #define BUF_SIZE 1000              /* Buffer rx, tx max size  */
 #define BACKLOG 5                  /* Max. client en espera de conectar  */
 
-
-int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
-  int argc, char *argv[]);
-static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
-                   uint8_t *dec);
-void ReceiveSparkle256(int connfd, uint8_t* shared_secret);
+int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret,
+        int argc, char *argv[]);
+static int decrypt(const uint8_t *id, const uint8_t *key, const uint8_t *nonce,
+                   const uint8_t *tag, uint8_t *ct, const size_t ct_len,
+                   uint8_t *msg);
+void ReceiveSparkle256(int connfd, uint8_t *shared_secret);
 void generateKeypair();
 
 int main(int argc, char *argv[]) {
@@ -58,12 +57,10 @@ int main(int argc, char *argv[]) {
   double kpTime, decTime;
 
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
-  uint8_t msg[SPARKLE_MAX_SIZE];
+  uint8_t msg[CRYPTO_KEYBYTES];
 
-
-//./ServerKEM generate --> generate PK SK keys ande SAVES on FILE
-  if (argc == 2 && strcmp(argv[1],"generate") == 0) {
-
+  //./ServerKEM generate --> generate PK SK keys ande SAVES on FILE
+  if (argc == 2 && strcmp(argv[1], "generate") == 0) {
     generateKeypair();
     exit(EXIT_SUCCESS);
   }
@@ -114,28 +111,25 @@ int main(int argc, char *argv[]) {
       return -1;
     } else {
       // KEM NTRU
-//      for (int i = 0; i < 100; i++) {
+      //      for (int i = 0; i < 100; i++) {
 
-       if(argc == 2 && strcmp(argv[1],"raw") == 0){
-
-            read(connfd, msg, sizeof(msg));
-            printf("Raw message: %s\n", msg);
-            printf("\n");
-          }
-          else{
-
-            printf("CONEXION %d:\n", ++n_conexion);
-            EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
-            KEM(connfd, &kpTime, &decTime, shared_secret, argc, argv);
-            ReceiveSparkle256(connfd,shared_secret);
-            EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
-            EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
-         }
-      //  }
-        close(connfd);
+      if (argc == 2 && strcmp(argv[1], "raw") == 0) {
+        read(connfd, msg, sizeof(msg));
+        printf("Raw message: %s\n", msg);
+        printf("\n");
+      } else {
+        printf("CONEXION %d:\n", ++n_conexion);
+        EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
+        KEM(connfd, &kpTime, &decTime, shared_secret, argc, argv);
+        ReceiveSparkle256(connfd, shared_secret);
+        EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
+        EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
       }
+      //  }
+      close(connfd);
     }
   }
+}
 
 /* while (1)  {
 
@@ -149,9 +143,8 @@ int main(int argc, char *argv[]) {
                 }
             } */
 
-
-int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
-  int argc, char *argv[]) {
+int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret,
+        int argc, char *argv[]) {
   uint8_t public_key[NTRU_PUBLICKEYBYTES];
   uint8_t secret_key[NTRU_SECRETKEYBYTES];
   uint8_t ciphertext[NTRU_CIPHERTEXTBYTES];
@@ -160,17 +153,17 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
 
   clock_t tic, toc;
 
-    //Case ./serverKEM key --> read keys from FILE.
-  if(argc == 2 && strcmp(argv[1],"key") == 0){
+  // Case ./serverKEM key --> read keys from FILE.
+  if (argc == 2 && strcmp(argv[1], "key") == 0) {
+    readFileKey("../SK.pem", secret_key, sizeof(secret_key));
+    printBstr("READ SECRET KEY = ", secret_key, sizeof secret_key);
+    readFileKey("../PK.pem", public_key, sizeof(public_key));
+    printBstr("READ PU KEY = ", secret_key, sizeof secret_key);
 
-    readFileKey("../SK.pem",secret_key,sizeof(secret_key));
-    printBstr("READ SECRET KEY = ",secret_key,sizeof secret_key);
-    readFileKey("../PK.pem",public_key,sizeof(public_key));
-    printBstr("READ PU KEY = ",secret_key,sizeof secret_key);
-
-  }else{
+  } else {
     tic = clock();
-    rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(public_key, secret_key);
+    rc =
+        PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(public_key, secret_key);
     toc = clock();
     *kpTime = TiempoProceso(tic, toc);
     if (rc != 0) {
@@ -178,8 +171,8 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
       return -1;
     }
   }
-  //printBstr("SERVER: PK=", public_key, NTRU_PUBLICKEYBYTES);
-  //printBstr("SERVER: SK=", secret_key,NTRU_SECRETKEYBYTES);
+  // printBstr("SERVER: PK=", public_key, NTRU_PUBLICKEYBYTES);
+  // printBstr("SERVER: SK=", secret_key,NTRU_SECRETKEYBYTES);
   write(connfd, public_key, sizeof(public_key));
 
   read(connfd, ciphertext, sizeof(ciphertext));
@@ -200,39 +193,52 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t* shared_secret,
   printf("\n Keypair time (ms): %f ", *kpTime);
   printf("\n Decrypt time (ms): %f \n", *decTime);
 
-
   return 0;
 }
-void generateKeypair(){
+void generateKeypair() {
   uint8_t public_key[NTRU_PUBLICKEYBYTES];
   uint8_t secret_key[NTRU_SECRETKEYBYTES];
 
   PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(public_key, secret_key);
-  WriteFileKey("../SK.pem",secret_key,sizeof(secret_key));
-  WriteFileKey("../PK.pem",public_key,sizeof(public_key));
-
+  WriteFileKey("../SK.pem", secret_key, sizeof(secret_key));
+  WriteFileKey("../PK.pem", public_key, sizeof(public_key));
 }
-void ReceiveSparkle256(int connfd, uint8_t* shared_secret){
-  // Extract payload (nonce+encData)
-  uint8_t nonce[SPARKLE_MAX_SIZE];
+
+void ReceiveSparkle256(int connfd, uint8_t *shared_secret) {
+  // Extract payload (nonce+encData+tag)
+  uint8_t nonce[CRYPTO_KEYBYTES];
   read(connfd, nonce, sizeof nonce);
-  uint8_t msg[SPARKLE_MAX_SIZE];
+  uint8_t msg[CRYPTO_KEYBYTES];
   read(connfd, msg, sizeof msg);
+  uint8_t tag[CRYPTO_KEYBYTES];
+  read(connfd, tag, sizeof tag);
   log8("nonce: ", nonce, sizeof nonce);
   log8("enc  : ", msg, sizeof msg);
-  decrypt(shared_secret, nonce, msg, msg);
+  log8("tag  : ", tag, sizeof tag);
+
+  /* Id of client */
+  // ARF to ERL: this ID could be provided when client connects, but we can keep
+  // it as secondary secure key for now (because in the current case, the ID is
+  // not sent)
+  uint8_t id[CRYPTO_KEYBYTES] = {0};
+  char *name = "RASPBERRY_1";
+  memcpy(id, name, strlen(name));
+
+  int status = decrypt(id, shared_secret, nonce, tag, msg, sizeof msg, msg);
+  if (status != 0) printf("Error on decryption: status=%i", status);
   printf("dec: %s\n", msg);
   printf("\n");
-
 }
 
-static int decrypt(const uint8_t *key, const uint8_t *nonce, uint8_t *enc,
-                   uint8_t *dec) {
-  SparkleState state = {{1}, {1}};
-  // ARF: RND to prevent nonce misuse attacks
-  // since we are not using encrypt as channel, nonce is not so important
-  // randombytes(nonce, CRYPTO_KEYBYTES);
+static int decrypt(const uint8_t *id, const uint8_t *key, const uint8_t *nonce,
+                   const uint8_t *tag, uint8_t *ct, const size_t ct_len,
+                   uint8_t *msg) {
+  int status = 0;
+  SparkleState state;
   Initialize(&state, key, nonce);
-  ProcessCipherText(&state, dec, enc, SPARKLE_MAX_SIZE);
-  return 0;
+  if (id != NULL) ProcessAssocData(&state, id, CRYPTO_KEYBYTES);
+  ProcessCipherText(&state, msg, ct, ct_len);
+  Finalize(&state, key);
+  if (id != NULL) status = VerifyTag(&state, tag);
+  return status;
 }
