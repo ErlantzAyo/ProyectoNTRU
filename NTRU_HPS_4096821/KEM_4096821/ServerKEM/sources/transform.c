@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "transform.h"
 
 static char encoding_table[] = {
     'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
@@ -60,10 +59,14 @@ unsigned char *base64_decode(const char *data, size_t input_length,
   if (decoded_data == NULL) return NULL;
 
   for (int i = 0, j = 0; i < input_length;) {
-    uint32_t sextet_a = data[i] == '=' ? 0 & i++ : decoding_table[data[i++]];
-    uint32_t sextet_b = data[i] == '=' ? 0 & i++ : decoding_table[data[i++]];
-    uint32_t sextet_c = data[i] == '=' ? 0 & i++ : decoding_table[data[i++]];
-    uint32_t sextet_d = data[i] == '=' ? 0 & i++ : decoding_table[data[i++]];
+    uint32_t sextet_a =
+        data[i] == '=' ? 0 & i++ : decoding_table[(size_t)data[i++]];
+    uint32_t sextet_b =
+        data[i] == '=' ? 0 & i++ : decoding_table[(size_t)data[i++]];
+    uint32_t sextet_c =
+        data[i] == '=' ? 0 & i++ : decoding_table[(size_t)data[i++]];
+    uint32_t sextet_d =
+        data[i] == '=' ? 0 & i++ : decoding_table[(size_t)data[i++]];
     uint32_t triple = (sextet_a << 3 * 6) + (sextet_b << 2 * 6) +
                       (sextet_c << 1 * 6) + (sextet_d << 0 * 6);
     if (j < *output_length) decoded_data[j++] = (triple >> 2 * 8) & 0xFF;
@@ -76,20 +79,22 @@ unsigned char *base64_decode(const char *data, size_t input_length,
 size_t hex_to_uint8(const char *src, uint8_t *dest) {
   size_t src_len = strlen(src);
   size_t i;
-  int value;
+  uint32_t value;
   for (i = 0; i < src_len && sscanf(src + i * 2, "%2x", &value) == 1; i++) {
     dest[i] = value;
   }
   return i;
 }
 
-/*
-int main(int argc, char const *argv[]) {
-  unsigned char arr[] = {0xa1, 0xa2, 0x11, 0x12, 0x00};
-  size_t len = sizeof(arr);
-  size_t outl;
-  char *out = base64_encode(arr, len, &outl);
-
-  printf("base64: %s\n", out);
-  return 0;
-} */
+// int main(int argc, char const *argv[]) {
+//   uint8_t arr[] = {0xa1, 0xa2, 0x11, 0x12, 0x00};
+//   size_t len = sizeof(arr);
+//   size_t outl;
+//   char *out = base64_encode(arr, len, &outl);
+//   printf("base64: %s\n", out);
+//   size_t resl;
+//   uint8_t *res = base64_decode(out, outl, &resl);
+//   char *msg = memcmp(arr, res, len) == 0 ? "OK" : "FATAL ERROR";
+//   printf("result: %s\n", msg);
+//   return 0;
+// }
