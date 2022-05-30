@@ -44,8 +44,14 @@
 #include "file_io.h"
 
 /* Parametros del cliente */
-#define SERVER_ADDRESS "127.0.0.1" /* Direccion IP */
-#define PORT 8080                  /* puerto */
+static char SERVER_ADDRESS[30] = "127.0.0.1"; /* IP address */
+static int PORT = 8080;                       /* Port */
+#define HELP                                                   \
+  "\nPost-Quantum client.\n\n"                                 \
+  "Usage:\n"                                                   \
+  "  (no params) - Connect to localhost server at 8080 port\n" \
+  "  raw         - Do not encrypt (useful for benchmarking)\n" \
+  "  $ip $port     - Connect to another server or port\n"
 
 int KEMCliente(int, double *, uint8_t *);
 
@@ -53,8 +59,24 @@ int encrypt(const uint8_t *id, const uint8_t *key, const uint8_t *msg,
             const size_t msg_len, uint8_t *nonce, uint8_t *tag, uint8_t *ct);
 
 void sendSparkle256(int sockfd, uint8_t *shared_secret, uint8_t *msg);
+int start(int argc, char *argv[]);
 
 int main(int argc, char *argv[]) {
+  if (argc < 2) return start(argc, argv);
+  char *p1 = argv[1];
+  if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "help") == 0) {
+    return printf(HELP);
+  }
+  if (strcmp(argv[1], "raw") == 0) {
+    return start(argc, argv);
+  } else {
+    strcpy(SERVER_ADDRESS, p1);
+    if (argc > 2) PORT = atoi(argv[2]);
+    return start(argc, argv);
+  }
+}
+
+int start(int argc, char *argv[]) {
   int sockfd;
   struct sockaddr_in servaddr;
 
@@ -87,7 +109,6 @@ int main(int argc, char *argv[]) {
 
   // for (int i = 0; i < 100; i++) {
 
-  // Message to send with the symmetric encryption
   uint8_t msg[CRYPTO_KEYBYTES];
   getTempMsg(msg);
   // readFileDouble("/sys/class/thermal/thermal_zone0/temp",dato,sizeof(dato));
@@ -111,7 +132,7 @@ int main(int argc, char *argv[]) {
   //  }
 
   /* close the socket */
-  close(sockfd);
+  return close(sockfd);
 }
 
 int KEMCliente(int sockfd, double *encTime, uint8_t *shared_secret) {
