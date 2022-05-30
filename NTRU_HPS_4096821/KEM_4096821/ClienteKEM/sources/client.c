@@ -164,8 +164,10 @@ void sendSparkle256(int sockfd, uint8_t *shared_secret, uint8_t *msg) {
   /* Nonce management */
   uint8_t nonce[CRYPTO_KEYBYTES];
   randombytes(nonce, CRYPTO_KEYBYTES);  // not a nonce but secure and clean
-  if (nonce[0] == 0x00) {
-    printf("CRITICAL: RNG is not enabled");
+  int checkRNG = 0;
+  for (int r = 0; r < sizeof(nonce); r++) checkRNG += nonce[r];
+  if (checkRNG == 0) {
+    fprintf(stderr, "CRITICAL: RNG is not enabled");
     exit(500);  // CRITICAL: RNG generator not enabled
   }
 
