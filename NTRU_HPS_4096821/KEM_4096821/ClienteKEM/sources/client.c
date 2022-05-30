@@ -46,6 +46,8 @@
 /* Parametros del cliente */
 static char SERVER_ADDRESS[30] = "127.0.0.1"; /* IP address */
 static int PORT = 8080;                       /* Port */
+static uint8_t public_key[NTRU_PUBLICKEYBYTES];
+
 #define HELP                                                   \
   "\nPost-Quantum client.\n\n"                                 \
   "Usage:\n"                                                   \
@@ -82,22 +84,22 @@ int start(int argc, char *argv[]) {
 
   double encTime;
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
+  for (int i = 0; i < 100; i++) {
+    /* Socket creation */
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd == -1) {
+      printf("CLIENT: socket creation failed...\n");
+      return -1;
+    } else {
+      printf("CLIENT: Socket successfully created..\n");
+    }
 
-  /* Socket creation */
-  sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  if (sockfd == -1) {
-    printf("CLIENT: socket creation failed...\n");
-    return -1;
-  } else {
-    printf("CLIENT: Socket successfully created..\n");
-  }
+    memset(&servaddr, 0, sizeof(servaddr));
 
-  memset(&servaddr, 0, sizeof(servaddr));
-
-  /* assign IP, PORT */
-  servaddr.sin_family = AF_INET;
-  servaddr.sin_addr.s_addr = inet_addr(SERVER_ADDRESS);
-  servaddr.sin_port = htons(PORT);
+    /* assign IP, PORT */
+    servaddr.sin_family = AF_INET;
+    servaddr.sin_addr.s_addr = inet_addr(SERVER_ADDRESS);
+    servaddr.sin_port = htons(PORT);
 
   /* try to connect the client socket to server socket */
   if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0) {
@@ -105,46 +107,33 @@ int start(int argc, char *argv[]) {
     return -1;
   }
 
-  printf("connected to the server..\n");
+    printf("connected to the server..\n");
 
-  // for (int i = 0; i < 100; i++) {
+    // read PK
+    read(sockfd, public_key, sizeof(public_key));
+    printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
 
-  uint8_t msg[CRYPTO_KEYBYTES];
-  getTempMsg(msg);
-  // readFileDouble("/sys/class/thermal/thermal_zone0/temp",dato,sizeof(dato));
-  /*uint8_t msg[CRYPTO_KEYBYTES] = "Temp: 25.0";
-      static uint8_t val = 0;
-      if (val >= 9) val = 0;
-      val++;
-      msg[9] = '0' + val;
-      */
+    // send data
 
-  if (argc == 2 && strcmp(argv[1], "raw") == 0) {
-    write(sockfd, msg, sizeof(msg));
-  } else {
-    KEMCliente(sockfd, &encTime, shared_secret);
-    EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
-
-    // Sparkle Symmetric encryption
-    sendSparkle256(sockfd, shared_secret, msg);
+    if (argc == 2 && strcmp(argv[1], "raw") == 0) {
+      uint8_t msg[CRYPTO_KEYBYTES];
+      getTempMsg(msg);
+      write(sockfd, msg, sizeof(msg));
+    } else {
+      KEMCliente(sockfd, &encTime, shared_secret);
+      EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
+    }
+    /* close the socket */
+    close(sockfd);
   }
 
-  //  }
-
-  /* close the socket */
-  return close(sockfd);
+  return 0;
 }
 
 int KEMCliente(int sockfd, double *encTime, uint8_t *shared_secret) {
-  uint8_t public_key[NTRU_PUBLICKEYBYTES];
   uint8_t ciphertext[NTRU_CIPHERTEXTBYTES];
-
   int rc;
   clock_t tic, toc;
-
-  read(sockfd, public_key, sizeof(public_key));
-
-  printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
   tic = clock();
   rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_enc(ciphertext, shared_secret,
                                                    public_key);
@@ -159,6 +148,10 @@ int KEMCliente(int sockfd, double *encTime, uint8_t *shared_secret) {
 
   write(sockfd, ciphertext, sizeof(ciphertext));
 
+  // Gather and transmit encryptedsensor data
+  uint8_t msg[CRYPTO_KEYBYTES];
+  getTempMsg(msg);
+  sendSparkle256(sockfd, shared_secret, msg);
   return 0;
 }
 

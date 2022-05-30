@@ -110,9 +110,6 @@ int main(int argc, char *argv[]) {
               strerror(errno));
       return -1;
     } else {
-      // KEM NTRU
-      //      for (int i = 0; i < 100; i++) {
-
       if (argc == 2 && strcmp(argv[1], "raw") == 0) {
         read(connfd, msg, sizeof(msg));
         printf("Raw message: %s\n", msg);
@@ -125,10 +122,9 @@ int main(int argc, char *argv[]) {
         EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
         EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
       }
-      //  }
-      close(connfd);
     }
   }
+  close(connfd);
 }
 
 /* while (1)  {
