@@ -40,30 +40,49 @@
 #define BUF_SIZE 1000              /* Buffer rx, tx max size  */
 #define BACKLOG 5                  /* Max. client en espera de conectar  */
 
-int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret,
-        int argc, char *argv[]);
+
+#define HELP                                                   \
+  "\nPost-Quantum client.\n\n"                                 \
+  "Usage:\n"                                                   \
+  "  (no params) - Create server with localhost address at 8080 port\n" \
+  "  raw         - Do not encrypt (useful for benchmarking)\n" \
+
+
+
+int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret);
 static int decrypt(const uint8_t *id, const uint8_t *key, const uint8_t *nonce,
                    const uint8_t *tag, uint8_t *ct, const size_t ct_len,
                    uint8_t *msg);
 void ReceiveSparkle256(int connfd, uint8_t *shared_secret);
 void generateKeypair();
+int start(int argc, char *argv[]);
 
 int main(int argc, char *argv[]) {
-  int sockfd, connfd, n_conexion = 0; /* sockets*/
+
+  if (argc < 2) return start(argc, argv);
+
+  if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "help") == 0) {
+    return printf(HELP);
+  }else {
+    return start(argc, argv);
+  }
+}
+
+
+int start(int argc, char *argv[]) {
+
+  int sockfd, connfd; /* sockets*/
   unsigned int len;                   /* tamaño direccion de clietne */
   struct sockaddr_in servaddr, client;
-
   /* variables de tiempo de proceso*/
   double kpTime, decTime;
 
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
   uint8_t msg[CRYPTO_KEYBYTES];
 
-  //./ServerKEM generate --> generate PK SK keys ande SAVES on FILE
-  if (argc == 2 && strcmp(argv[1], "generate") == 0) {
-    generateKeypair();
-    exit(EXIT_SUCCESS);
-  }
+  // generate PK SK keys ande SAVES on FILE
+  generateKeypair();
+
   /* creacion de socket*/
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
@@ -115,9 +134,9 @@ int main(int argc, char *argv[]) {
         printf("Raw message: %s\n", msg);
         printf("\n");
       } else {
-        printf("CONEXION %d:\n", ++n_conexion);
-        EscribirFichero("../../datos.txt", "PRUEBA ", n_conexion);
-        KEM(connfd, &kpTime, &decTime, shared_secret, argc, argv);
+
+        EscribirFichero("../../datos.txt", "PRUEBA ", connfd);
+        KEM(connfd, &kpTime, &decTime, shared_secret);
         ReceiveSparkle256(connfd, shared_secret);
         EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
         EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
@@ -125,22 +144,14 @@ int main(int argc, char *argv[]) {
     }
   }
   close(connfd);
+
+
+
+
+  return 0;
+
 }
-
-/* while (1)  {
-
-                len_rx = read(connfd, buff_rx, sizeof (buff_rx));
-
-                if (len_rx == -1) {
-                    fprintf(stderr, "[SERVER-error]: connfd cannot be read. %d:
-   %s \n", errno, strerror(errno)); } else if (len_rx == 0) { printf("[SERVER]:
-   client socket closed \n\n"); close(connfd); break; } else { write(connfd,
-   buff_tx, sizeof(buff_tx)); printf("[SERVER]: %s \n", buff_rx);
-                }
-            } */
-
-int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret,
-        int argc, char *argv[]) {
+int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret) {
   uint8_t public_key[NTRU_PUBLICKEYBYTES];
   uint8_t secret_key[NTRU_SECRETKEYBYTES];
   uint8_t ciphertext[NTRU_CIPHERTEXTBYTES];
@@ -150,25 +161,11 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret,
   clock_t tic, toc;
 
   // Case ./serverKEM key --> read keys from FILE.
-  if (argc == 2 && strcmp(argv[1], "key") == 0) {
-    readFileKey("../SK.pem", secret_key, sizeof(secret_key));
-    printBstr("READ SECRET KEY = ", secret_key, sizeof secret_key);
-    readFileKey("../PK.pem", public_key, sizeof(public_key));
-    printBstr("READ PU KEY = ", secret_key, sizeof secret_key);
+  readFileKey("../SK.pem", secret_key, sizeof(secret_key));
+  //SprintBstr("READ SECRET KEY = ", secret_key, sizeof secret_key);
+  readFileKey("../PK.pem", public_key, sizeof(public_key));
+  //printBstr("READ PUBLIC KEY = ", secret_key, sizeof secret_key);
 
-  } else {
-    tic = clock();
-    rc =
-        PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(public_key, secret_key);
-    toc = clock();
-    *kpTime = TiempoProceso(tic, toc);
-    if (rc != 0) {
-      fprintf(stderr, "ERROR: crypto_kem_keypair failed!\n");
-      return -1;
-    }
-  }
-  // printBstr("SERVER: PK=", public_key, NTRU_PUBLICKEYBYTES);
-  // printBstr("SERVER: SK=", secret_key,NTRU_SECRETKEYBYTES);
   write(connfd, public_key, sizeof(public_key));
 
   read(connfd, ciphertext, sizeof(ciphertext));

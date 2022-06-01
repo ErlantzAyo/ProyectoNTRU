@@ -53,6 +53,6 @@ void readFileKey(char *nombreFichero, uint8_t* key, size_t len) {
     exit(1);
   }
   fread(key, 1,len,fp);
-  printBstr("KEY IN FILE:", key, len);
+  //printBstr("KEY IN FILE:", key, len);
   fclose(fp);
 }

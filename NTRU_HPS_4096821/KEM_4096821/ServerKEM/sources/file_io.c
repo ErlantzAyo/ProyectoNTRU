@@ -75,7 +75,7 @@ fread(keyb,sizeof(char), numbytes,fp);
     //tranform base64 to uint8_t
 memcpy(key,base64_decode(keyb,numbytes,&len),len);
 //key = base64_decode(keyb,numbytes,&len);
-printBstr("KEY read = ",key,len);
+//printBstr("KEY read = ",key,len);
 free(keyb);
 
   fclose(fp);
