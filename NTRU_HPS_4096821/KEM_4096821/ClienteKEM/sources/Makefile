@@ -1,5 +1,5 @@
-TARGET = $(BIN_DIR)/ClientKEM
 
+TARGET = $(BIN_DIR)/ClientKEM
 
 BIN_DIR = ../bin
 INC_DIR = ../includes -I ../../sparkle256
@@ -8,9 +8,13 @@ OBJ_DIR = ../objects
 
 SOURCES = $(foreach d,$(SRC_DIR),$(wildcard $(addprefix $(d)/*, .c )))
 
-OBJS	=$(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(basename $(SOURCES))))
+OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(basename $(SOURCES))))
 
-CFLAGS =-O3 -Wall -I$(INC_DIR)
+# macros to compile in default(benchmarks) or production(continuous) modes
+# MACROS = -DPRODUCTION
+MACROS =
+
+CFLAGS =-O3 -Wall $(MACROS) -I$(INC_DIR)
 
 $(TARGET) : $(OBJS)
 	mkdir -p $(BIN_DIR)
@@ -25,5 +29,4 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 clean : 
 	@rm  -r $(OBJ_DIR) $(BIN_DIR)
 	@rm -f *.o
-	
 	

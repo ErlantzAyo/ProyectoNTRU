@@ -1,8 +1,10 @@
-/*************************************************************************************/
-/* @file    cliente.c */
-/* @brief   This clients connects, */
-/*          sends a text, reads what server and disconnects */
-/*************************************************************************************/
+/*************************************************************************************
+ * @file    cliente.c
+ * @brief   This clients connects,
+ *          sends a text, reads what server and disconnects
+ *
+ * Note: use __PRODUCTION__ flag for continuous mode
+ *************************************************************************************/
 
 /*standard symbols */
 #include <unistd.h>
@@ -64,18 +66,23 @@ void sendSparkle256(int sockfd, uint8_t *shared_secret, uint8_t *msg);
 int start(int argc, char *argv[]);
 
 int main(int argc, char *argv[]) {
-  if (argc < 2) return start(argc, argv);
-  char *p1 = argv[1];
-  if (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "help") == 0) {
+  if (argc >= 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "help") == 0))
     return printf(HELP);
-  }
-  if (strcmp(argv[1], "raw") == 0) {
-    return start(argc, argv);
-  } else {
-    strcpy(SERVER_ADDRESS, p1);
+
+  if (argc >= 2 && strcmp(argv[1], "raw") != 0) {
+    strcpy(SERVER_ADDRESS, argv[1]);
     if (argc > 2) PORT = atoi(argv[2]);
-    return start(argc, argv);
   }
+#ifdef PRODUCTION
+  while (true) {
+    start(argc, argv);
+    sleep(10);
+  }
+#else
+  for (int i = 0; i < 100; i++) {
+    start(argc, argv);
+  }
+#endif
 }
 
 int start(int argc, char *argv[]) {
@@ -84,22 +91,21 @@ int start(int argc, char *argv[]) {
 
   double encTime;
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
-  for (int i = 0; i < 100; i++) {
-    /* Socket creation */
-    sockfd = socket(AF_INET, SOCK_STREAM, 0);
-    if (sockfd == -1) {
-      printf("CLIENT: socket creation failed...\n");
-      return -1;
-    } else {
-      printf("CLIENT: Socket successfully created..\n");
-    }
+  /* Socket creation */
+  sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  if (sockfd == -1) {
+    printf("CLIENT: socket creation failed...\n");
+    return -1;
+  } else {
+    printf("CLIENT: Socket successfully created..\n");
+  }
 
-    memset(&servaddr, 0, sizeof(servaddr));
+  memset(&servaddr, 0, sizeof(servaddr));
 
-    /* assign IP, PORT */
-    servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = inet_addr(SERVER_ADDRESS);
-    servaddr.sin_port = htons(PORT);
+  /* assign IP, PORT */
+  servaddr.sin_family = AF_INET;
+  servaddr.sin_addr.s_addr = inet_addr(SERVER_ADDRESS);
+  servaddr.sin_port = htons(PORT);
 
   /* try to connect the client socket to server socket */
   if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0) {
@@ -107,24 +113,24 @@ int start(int argc, char *argv[]) {
     return -1;
   }
 
-    printf("connected to the server..\n");
+  printf("connected to the server..\n");
 
-    if (argc == 2 && strcmp(argv[1], "raw") == 0) {
-      uint8_t msg[CRYPTO_KEYBYTES];
-        // send data
-      getTempMsg(msg);
-      write(sockfd, msg, sizeof(msg));
-    } else {
-      // read PK
-      read(sockfd, public_key, sizeof(public_key));
-      printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
-        // send data
-      KEMCliente(sockfd, &encTime, shared_secret);
-      EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
-    }
-    /* close the socket */
-    close(sockfd);
+  // read PK
+  read(sockfd, public_key, sizeof(public_key));
+  printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
+
+  // send data
+
+  if (argc == 2 && strcmp(argv[1], "raw") == 0) {
+    uint8_t msg[CRYPTO_KEYBYTES];
+    getTempMsg(msg);
+    write(sockfd, msg, sizeof(msg));
+  } else {
+    KEMCliente(sockfd, &encTime, shared_secret);
+    EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
   }
+  /* close the socket */
+  close(sockfd);
 
   return 0;
 }
