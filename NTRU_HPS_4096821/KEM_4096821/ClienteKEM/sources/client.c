@@ -109,17 +109,16 @@ int start(int argc, char *argv[]) {
 
     printf("connected to the server..\n");
 
-    // read PK
-    read(sockfd, public_key, sizeof(public_key));
-    printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
-
-    // send data
-
     if (argc == 2 && strcmp(argv[1], "raw") == 0) {
       uint8_t msg[CRYPTO_KEYBYTES];
+        // send data
       getTempMsg(msg);
       write(sockfd, msg, sizeof(msg));
     } else {
+      // read PK
+      read(sockfd, public_key, sizeof(public_key));
+      printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
+        // send data
       KEMCliente(sockfd, &encTime, shared_secret);
       EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
     }
