@@ -10,7 +10,7 @@ SOURCES = $(foreach d,$(SRC_DIR),$(wildcard $(addprefix $(d)/*, .c )))
 
 OBJS	=$(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(basename $(SOURCES))))
 
-CFLAGS = -Wall -I$(INC_DIR)
+CFLAGS =-O3 -Wall -I$(INC_DIR)
 
 $(TARGET) : $(OBJS)
 	mkdir -p $(BIN_DIR)
