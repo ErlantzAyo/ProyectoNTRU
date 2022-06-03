@@ -12,6 +12,7 @@ OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(basename $(SOURCES))))
 
 # macros to compile in default(benchmarks) or production(continuous) modes
 # MACROS = -DPRODUCTION
+# MACROS = -DBENCH
 MACROS =
 
 CFLAGS =-O3 -Wall $(MACROS) -I$(INC_DIR)
@@ -26,7 +27,6 @@ $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 -include $(OBJ_DIR)/*.d
 
 .PHONY: clean
-clean : 
+clean :
 	@rm  -r $(OBJ_DIR) $(BIN_DIR)
 	@rm -f *.o
-	

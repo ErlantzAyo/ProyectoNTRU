@@ -4,6 +4,7 @@
  *          sends a text, reads what server and disconnects
  *
  * Note: use __PRODUCTION__ flag for continuous mode
+ * Note: use __BENCH__ flag for no printf mode (for benchmarks)
  *************************************************************************************/
 
 /*standard symbols */
@@ -67,7 +68,7 @@ int start(int argc, char *argv[]);
 
 int main(int argc, char *argv[]) {
   if (argc >= 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "help") == 0))
-    return printf(HELP);
+    return OUTPUT((HELP));
 
   if (argc >= 2 && strcmp(argv[1], "raw") != 0) {
     strcpy(SERVER_ADDRESS, argv[1]);
@@ -94,10 +95,10 @@ int start(int argc, char *argv[]) {
   /* Socket creation */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
   if (sockfd == -1) {
-    printf("CLIENT: socket creation failed...\n");
+    OUTPUT(("CLIENT: socket creation failed...\n"));
     return -1;
   } else {
-    printf("CLIENT: Socket successfully created..\n");
+    OUTPUT(("CLIENT: Socket successfully created..\n"));
   }
 
   memset(&servaddr, 0, sizeof(servaddr));
@@ -109,11 +110,11 @@ int start(int argc, char *argv[]) {
 
   /* try to connect the client socket to server socket */
   if (connect(sockfd, (struct sockaddr *)&servaddr, sizeof(servaddr)) != 0) {
-    printf("connection with the server failed...\n");
+    OUTPUT(("connection with the server failed...\n"));
     return -1;
   }
 
-  printf("connected to the server..\n");
+  OUTPUT(("connected to the server..\n"));
 
   // read PK
   read(sockfd, public_key, sizeof(public_key));

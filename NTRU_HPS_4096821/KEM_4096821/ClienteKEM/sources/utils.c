@@ -10,7 +10,6 @@
 
 #include "utils.h"
 
-
 void getTempMsg (uint8_t* msg){
   double dato = 0;
   dato = readFileDouble("/sys/class/thermal/thermal_zone0/temp");
@@ -21,14 +20,18 @@ void getTempMsg (uint8_t* msg){
 
 void printBstr(const char *S, const uint8_t *key, size_t L) {
   size_t i;
-  printf("%s", S);
+  //printf("%s", S);
+    OUTPUT(("%s", S));
   for (i = 0; i < L; i++) {
-    printf("%02X", key[i]);
+    //printf("%02X", key[i]);
+    OUTPUT(("%02X", key[i]));
   }
   if (L == 0) {
-    printf("00");
+    //printf("00");
+  OUTPUT(("%02X", key[i]));
   }
-  printf("\n\n");
+  //printf("\n\n");
+    OUTPUT(("\n\n"));
 }
 
 double TiempoProceso(clock_t tic, clock_t toc) {
@@ -40,8 +43,11 @@ double TiempoProceso(clock_t tic, clock_t toc) {
 void log8(char *text, uint8_t *data, size_t len) {
   // size_t LIMIT = len;
   size_t LIMIT = len < 32 ? len : 32;
-  printf("%s", text);
-  for (size_t r = 0; r < LIMIT; r++) printf("%02x", *data++);
-  if (len > LIMIT) printf("...%zu bytes", len);
-  printf("\n");
+  //printf("%s", text);
+  OUTPUT(("%s", text));
+
+  for (size_t r = 0; r < LIMIT; r++)OUTPUT(("%02x", *data++)); //printf("%02x", *data++);
+  if (len > LIMIT)OUTPUT(("...%zu bytes", len)); //printf("...%zu bytes", len);
+  //printf("\n");
+  OUTPUT(("\n"));
 }
