@@ -38,11 +38,10 @@ double dato;
 void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len) {
   FILE *fp;
   size_t outl;
-  fp = fopen(nombreFichero, "w");
+  fp = fopen(nombreFichero, "wx");
 
   if (fp == NULL) {
-    printf("Error!");
-    exit(1);
+    return;
   }
   //transform uint8_t to base64
   char *out = base64_encode(key,len,&outl);
