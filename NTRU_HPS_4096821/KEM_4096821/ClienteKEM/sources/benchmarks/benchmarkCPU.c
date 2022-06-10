@@ -93,7 +93,7 @@ long currentTimeMillis() {
   return time.tv_sec * 1000 + time.tv_usec / 1000;
 }
 
-void warmCPU() {
+static void warmCPU() {
   printf("Warming up CPU...\n");
   uint8_t arr[1000000];
   memset(arr, '.', sizeof(arr));
