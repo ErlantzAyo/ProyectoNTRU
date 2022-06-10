@@ -94,7 +94,7 @@ long currentTimeMillis() {
 }
 
 void warmCPU() {
-  printf("Warming CPU...\n");
+  printf("Warming up CPU...\n");
   uint8_t arr[1000000];
   memset(arr, '.', sizeof(arr));
   for (size_t i = 0; i < 100000; i++) {
@@ -105,7 +105,10 @@ void warmCPU() {
 
 #define BENCH_MAX 100000
 
-int mainBenchmarkCPU(int argc, char *argv[]) {
+int benchmarkNTRU() {
+  printf(
+      "\n--- ASYMMETRIC NTRU-HPS-4096-821_ref (level V and no CPU extensions) "
+      "---\n");
   size_t pkl = NTRU_PUBLICKEYBYTES;
   size_t skl = NTRU_PUBLICKEYBYTES;
   size_t ctl = NTRU_CIPHERTEXTBYTES;
@@ -156,7 +159,48 @@ int mainBenchmarkCPU(int argc, char *argv[]) {
   t2 = currentTimeMillis();
   printf("DECAPS: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX);
 
-  log8("\nRES: ", res, BENCH_MAX);  // dump (to prevent not-used optimization)
+  //---dump data to prevent never-used optimization---
+  log8("RES: ", res, BENCH_MAX);
+  return status;
+}
+
+int benchmarkSPARKLE() {
+  printf(
+      "\n--- SYMMETRIC SPARKLE-256_ref (level V, aead mode and no CPU "
+      "extensions) ---\n");
+  int status = 0;
+  uint64_t t1, t2;
+  uint8_t *id = "aaaaaaaaaaaaa";
+  uint8_t *txt = "hoola";
+  size_t len = 32;
+  uint8_t *msg = calloc(1, len);
+  memcpy(msg, txt, len);
+  uint8_t key[32] = {66};
+  uint8_t nonce[32];
+  uint8_t tag[32];
+  uint8_t *ct = calloc(1, len);
+
+  //--------------Encrypt------------------
+  t1 = currentTimeMillis();
+  for (int r = 0; r < BENCH_MAX; r++) {
+    *msg = *msg + 1;
+    status = encrypt(id, key, msg, len, nonce, tag, ct);
+    if (status != 0) return 1;
+  }
+  t2 = currentTimeMillis();
+  printf("ENCRYPT: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX);
+
+  //--------------Decrypt------------------
+  t1 = currentTimeMillis();
+  for (int r = 0; r < BENCH_MAX; r++) {
+    //*ct = *ct + 1; //TODO check dec speed optimized (same ct same nonce, etc)
+    status = decrypt(id, key, nonce, tag, ct, len, msg);
+    if (status != 0) return 1;
+  }
+  t2 = currentTimeMillis();
+  printf("DECRYPT: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX);
+  log8("RES: ", msg, len);
+  return status;
 }
 
 int start(int argc, char *argv[]) {
@@ -167,6 +211,7 @@ int start(int argc, char *argv[]) {
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
   /* Socket creation */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
+  printf("\n");
   if (sockfd == -1) {
     OUTPUT(("CLIENT: socket creation failed...\n"));
     return -1;
@@ -274,8 +319,21 @@ int encrypt(const uint8_t *id, const uint8_t *key, const uint8_t *msg,
   if (id != NULL) GenerateTag(&state, tag);
   return 0;
 }
-
+int decrypt(const uint8_t *id, const uint8_t *key, const uint8_t *nonce,
+            const uint8_t *tag, uint8_t *ct, const size_t ct_len,
+            uint8_t *msg) {
+  int status = 0;
+  SparkleState state;
+  Initialize(&state, key, nonce);
+  if (id != NULL) ProcessAssocData(&state, id, CRYPTO_KEYBYTES);
+  ProcessCipherText(&state, msg, ct, ct_len);
+  Finalize(&state, key);
+  if (id != NULL) status = VerifyTag(&state, tag);
+  return status;
+}
 int main(int argc, char const *argv[]) {
   warmCPU();
-  return mainBenchmarkCPU(argc, argv);
+  if (benchmarkNTRU() != 0) printf("@@@@ INVALID NTRU BENCH@@@ \n");
+  if (benchmarkSPARKLE() != 0) printf("@@@@ INVALID SPARKLE BENCH@@@ \n");
+  return 0;
 }
