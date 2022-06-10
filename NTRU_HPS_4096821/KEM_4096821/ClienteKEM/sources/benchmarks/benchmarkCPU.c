@@ -87,12 +87,29 @@ int mainOLD(int argc, char *argv[]) {
 #endif
 }
 
+long currentTimeMillis() {
+  struct timeval time;
+  gettimeofday(&time, NULL);
+  return time.tv_sec * 1000 + time.tv_usec / 1000;
+}
+
+void warmCPU() {
+  printf("Warming CPU...\n");
+  uint8_t arr[1000000];
+  memset(arr, '.', sizeof(arr));
+  for (size_t i = 0; i < 100000; i++) {
+    for (size_t r = 0; r < sizeof(arr) - 2; r++) arr[r] = 3 + arr[r];
+  };
+  printf("Warming done (%u).\n", arr[55]);
+}
+
 #define BENCH_MAX 100000
 
 int mainBenchmarkCPU(int argc, char *argv[]) {
   size_t pkl = NTRU_PUBLICKEYBYTES;
   size_t skl = NTRU_PUBLICKEYBYTES;
   size_t ctl = NTRU_CIPHERTEXTBYTES;
+  size_t ssl = NTRU_SECRETKEYBYTES;
   uint8_t pk[NTRU_PUBLICKEYBYTES];
   uint8_t sk[NTRU_SECRETKEYBYTES];
   readFileKey("../../ServerKEM/PK.pem", pk, pkl);
@@ -227,4 +244,7 @@ int encrypt(const uint8_t *id, const uint8_t *key, const uint8_t *msg,
   return 0;
 }
 
-int main(int argc, char const *argv[]) { return mainBenchmarkCPU(argc, argv); }
+int main(int argc, char const *argv[]) {
+  warmCPU();
+  return mainBenchmarkCPU(argc, argv);
+}
