@@ -119,13 +119,44 @@ int mainBenchmarkCPU(int argc, char *argv[]) {
   uint8_t ct[NTRU_CIPHERTEXTBYTES];
   uint8_t ss[NTRU_SHAREDKEYBYTES];
   int status;
+  uint64_t t1, t2;
+
+  //--------------KeyGen-------------------
+  int BENCH_MAX_KEYGEN = BENCH_MAX / 100;
+  t1 = currentTimeMillis();
+  for (int r = 0; r < BENCH_MAX_KEYGEN; r++) {
+    status = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_keypair(pk, sk);
+    if (status != 0) return 1;
+    res[r] = sk[pos] + pk[pos];
+    pos++;
+    if (pos > skl) pos = 0;
+  }
+  t2 = currentTimeMillis();
+  printf("KEYGEN: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX_KEYGEN);
+
+  //--------------Encaps-------------------
+  t1 = currentTimeMillis();
   for (int r = 0; r < BENCH_MAX; r++) {
     status = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_enc(ct, ss, pk);
     if (status != 0) return 1;
     res[r] = ct[pos++];
     if (pos > ctl) pos = 0;
   }
-  log8("RES: ", res, BENCH_MAX);  // or printbstr
+  t2 = currentTimeMillis();
+  printf("ENCAPS: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX);
+
+  //--------------Decaps-------------------
+  t1 = currentTimeMillis();
+  for (int r = 0; r < BENCH_MAX; r++) {
+    status = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_dec(ss, ct, sk);
+    if (status != 0) return 1;
+    res[r] = ss[pos++];
+    if (pos > ssl) pos = 0;
+  }
+  t2 = currentTimeMillis();
+  printf("DECAPS: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX);
+
+  log8("\nRES: ", res, BENCH_MAX);  // dump (to prevent not-used optimization)
 }
 
 int start(int argc, char *argv[]) {
