@@ -8,8 +8,9 @@ echo "TEST VARIANTS OF SAME FAMILY (kyber sha variants level 3)"
 ./$NAME Kyber768-90s
 
 echo "TEST WAR OF LATTICE KINGS (ntru-hps vs kyber level 5)"
-./$NAME NTRU-HPS-4096-821
 ./$NAME Kyber1024
+./$NAME NTRU-HPS-4096-821
+./$NAME NTRU-HRSS-1373
 
 echo "TEST LATTICE VS NON-LATTICE (mceliece and sike vs ntru level 5)"
 ./$NAME NTRU-HPS-4096-821
