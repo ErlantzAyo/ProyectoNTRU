@@ -12,13 +12,13 @@ long currentTimeMillis() {
 }
 
 static void warmCPU() {
-  // printf("Warming up CPU...\n");
+  printf("Warming up CPU...\n");
   uint8_t arr[1000000];
   memset(arr, '.', sizeof(arr));
   for (size_t i = 0; i < 100000; i++) {
     for (size_t r = 0; r < sizeof(arr) - 2; r++) arr[r] = 3 + arr[r];
   };
-  // printf("Warming done (%u).\n", arr[55]);
+  printf("Warming done (%u).\n", arr[55]);
 }
 
 int test_KEM(const char* name) {
@@ -58,9 +58,17 @@ int test_KEM(const char* name) {
   return 0;
 }
 
-int main(int argc, char const* argv[]) {
-  const char* name = argc > 1 ? argv[1] : "Kyber768-90s";  // see kem.h
+int main(int argc, const char* argv[]) {
+  if (argc <= 1) {
+    printf("Usage: ./bench alg1 alg2 (see kem.h for names)...\n");
+    printf("Example: ./bench Kyber768 ...\n");
+    return 0;
+  }
+
   warmCPU();
-  if (test_KEM(name) != 0) printf("@@@@ INVALID %s BENCH@@@ \n", name);
+  for (size_t r = 1; r < argc; r++) {
+    const char* name = argv[r];
+    if (test_KEM(name) != 0) printf("@@@@ INVALID %s BENCH@@@ \n", name);
+  }
   return 0;
 }
