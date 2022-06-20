@@ -5,4 +5,5 @@ datos.txt
 *.bin
 *.pem
 a.out
-
+QDEFENDER/bench
+QDEFENDER/main
