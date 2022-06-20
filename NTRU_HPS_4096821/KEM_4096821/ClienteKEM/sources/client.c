@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
     sleep(10);
   }
 #else
-  for (int i = 0; i < 100; i++) {
+  for (int i = 0; i < 1000; i++) {
     start(argc, argv);
   }
 #endif
@@ -116,9 +116,6 @@ int start(int argc, char *argv[]) {
 
   OUTPUT(("connected to the server..\n"));
 
-  // read PK
-  read(sockfd, public_key, sizeof(public_key));
-  printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
 
   // send data
 
@@ -127,6 +124,10 @@ int start(int argc, char *argv[]) {
     getTempMsg(msg);
     write(sockfd, msg, sizeof(msg));
   } else {
+
+    // read PK
+    read(sockfd, public_key, sizeof(public_key));
+    printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
     KEMCliente(sockfd, &encTime, shared_secret);
     EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
   }

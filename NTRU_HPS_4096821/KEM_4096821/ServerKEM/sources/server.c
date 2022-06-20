@@ -120,6 +120,7 @@ int start(int argc, char *argv[]) {
   }
 
   len = sizeof(client);
+  int n=0;
 
   /* acepta los datos provenientes de los sockets de manera interactiva */
   while (1) {
@@ -140,10 +141,13 @@ int start(int argc, char *argv[]) {
         ReceiveSparkle256(connfd, shared_secret);
         EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
         EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
+        printf("Conexion : %d\n", n++);
+          close(connfd);
       }
     }
   }
-  close(connfd);
+
+  close(sockfd);
 
 
 
