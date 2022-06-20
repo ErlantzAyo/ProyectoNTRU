@@ -37,36 +37,22 @@ int test_KEM(const char* name) {
   printf("KEYGEN: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX_KEYGEN);
 
   // encaps
-  size_t ctl = sizeof(kem.ciphertext);
-  uint8_t* arr = calloc(BENCH_MAX * ctl, 1);
-  uint8_t* cts = arr;
   t1 = currentTimeMillis();
   for (int r = 0; r < BENCH_MAX; r++) {
     if (KEM_encapsulate(&kem) != 0) return 1;
-    memcpy(cts, kem.ciphertext, ctl);
-    cts += ctl;
   }
   t2 = currentTimeMillis();
   printf("ENCAPS: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX);
 
   // decaps
-  cts = arr;
-  uint8_t arr2[BENCH_MAX * 32];  // output to prevent optimization
-  uint8_t* sss = arr2;
   t1 = currentTimeMillis();
   for (int r = 0; r < BENCH_MAX; r++) {
-    memcpy(kem.ciphertext, cts, ctl);
-    cts += ctl;
     if (KEM_decapsulate(&kem) != 0) return 1;
-    memcpy(sss, kem.shared_secret, 32);
-    sss += 32;
   }
   t2 = currentTimeMillis();
   printf("DECAPS: %lf ms/op\n\n", (t2 - t1) * 1.0 / BENCH_MAX);
 
   // Destroy all
-  sss = arr2;
-  log8("ss_total: ", sss, BENCH_MAX * 32);
   KEM_destroy(&kem);
   return 0;
 }
