@@ -5,7 +5,8 @@
 `Client` connects to `Server` and sends a value. This value is encrypted by using a post-quantum algorithm. Expected outcome: only the private key owner can read the value and this value is resistant against conventional and quantum attacks.
 
 ## Client flavours
-- for benchmarks. Run the `ClientKem`.
+
+- for benchmarks. Run the `benchmark` executable containing CPU and NET benchmarks.
 - for production. Continuous mode. Use the `__PRODUCTION__` macro or run the `ClientKEM_Production`. 
 
 ## Detailed scenario
