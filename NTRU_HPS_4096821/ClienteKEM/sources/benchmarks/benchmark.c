@@ -8,10 +8,10 @@
  * These defines
  */
 #ifndef BENCH_MAX
-#define BENCH_MAX 10000
+#define BENCH_MAX 1000
 #endif
 #ifndef BENCH_MAX_NET
-#define BENCH_MAX_NET 1000
+#define BENCH_MAX_NET 10000
 #endif
 
 /*standard symbols */
@@ -242,7 +242,7 @@ int start(int argc, char *argv[]) {
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
   /* Socket creation */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
-  printf("\n");
+  OUTPUT(("\n"));
   if (sockfd == -1) {
     OUTPUT(("CLIENT: socket creation failed...\n"));
     return -1;
