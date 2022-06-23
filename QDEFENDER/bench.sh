@@ -1,4 +1,7 @@
 NAME=bench
+
+rm -r $NAME
+
 gcc -O3 -I. $NAME.c -L. -lqdefender-lib -o $NAME
 export LD_LIBRARY_PATH=.
 echo 

@@ -1,11 +1,18 @@
 /*************************************************************************************
- * @file    cliente.c
- * @brief   This clients connects,
- *          sends a text, reads what server and disconnects
+ *                              Benchmark for CPU and NET
  *
- * Note: use __PRODUCTION__ flag for continuous mode
- * Note: use __BENCH__ flag for no printf mode (for benchmarks)
+ * Usage :See the help string in this file.
+ *
  *************************************************************************************/
+/**
+ * These defines
+ */
+#ifndef BENCH_MAX
+#define BENCH_MAX 10000
+#endif
+#ifndef BENCH_MAX_NET
+#define BENCH_MAX_NET 1000
+#endif
 
 /*standard symbols */
 #include <unistd.h>
@@ -60,7 +67,7 @@ static uint8_t public_key[NTRU_PUBLICKEYBYTES];
   "  $ip $port     - Connect to another server or port\n"
 
 int KEMCliente(int, double *, uint8_t *);
-
+int serverInfo();
 int encrypt(const uint8_t *id, const uint8_t *key, const uint8_t *msg,
             const size_t msg_len, uint8_t *nonce, uint8_t *tag, uint8_t *ct);
 
@@ -103,7 +110,31 @@ static void warmCPU() {
   printf("Warming done (%u).\n", arr[55]);
 }
 
-#define BENCH_MAX 100000
+int benchmarkNETWORK(int argc, char const *argv[]) {
+  // server addr & port (default: localhost 8080)
+  if (argc >= 2 && strcmp(argv[1], "raw") != 0) {
+    strcpy(SERVER_ADDRESS, argv[1]);
+    if (argc > 2) PORT = atoi(argv[2]);
+  }
+
+  // execute all
+  uint64_t t1, t2;
+  t1 = currentTimeMillis();
+  int status;
+  for (int i = 0; i < BENCH_MAX_NET; i++) {
+    status = start(argc, argv);
+    if (status != 0) return status;
+  }
+
+  // check server if processed all interations
+  // status = serverInfo();
+  // if (status != 0) return status;
+
+  // measure
+  t2 = currentTimeMillis();
+  printf("\nNETWORK: %lf ms/op\n", (t2 - t1) * 1.0 / BENCH_MAX_NET);
+  return 0;
+}
 
 int benchmarkNTRU() {
   printf(
@@ -319,6 +350,7 @@ int encrypt(const uint8_t *id, const uint8_t *key, const uint8_t *msg,
   if (id != NULL) GenerateTag(&state, tag);
   return 0;
 }
+
 int decrypt(const uint8_t *id, const uint8_t *key, const uint8_t *nonce,
             const uint8_t *tag, uint8_t *ct, const size_t ct_len,
             uint8_t *msg) {
@@ -331,9 +363,29 @@ int decrypt(const uint8_t *id, const uint8_t *key, const uint8_t *nonce,
   if (id != NULL) status = VerifyTag(&state, tag);
   return status;
 }
+
+int serverInfo() {
+  // Connect to server and send "info"
+  // The server will return then number of connections
+  // retrieved AND processed on its side.
+
+  // TODO: disabled by now because server process will be fast
+  // so real difference between last TCP ack and return info will not be
+  // relevant to the total time.
+}
+
 int main(int argc, char const *argv[]) {
+  if (argc == 1) {
+    printf(
+        " Usage: ./benchmark addr port\n\n"
+        "[OPTIONAL] Use -DBENCH_MAX and -DBENCH_MAX_NET to change default "
+        "values during compilation\n");
+    return 0;
+  }
   warmCPU();
-  if (benchmarkNTRU() != 0) printf("@@@@ INVALID NTRU BENCH@@@ \n");
-  if (benchmarkSPARKLE() != 0) printf("@@@@ INVALID SPARKLE BENCH@@@ \n");
+  if (benchmarkNTRU() != 0) printf("@@@@ INVALID NTRU BENCHMARK@@@ \n");
+  if (benchmarkSPARKLE() != 0) printf("@@@@ INVALID SPARKLE BENCHMARK@@@ \n");
+  if (benchmarkNETWORK(argc, argv) != 0)
+    printf("@@@@ INVALID NETWOK BENCHMARK@@@ \n");
   return 0;
 }

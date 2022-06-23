@@ -26,7 +26,6 @@ int test_KEM(const char* name) {
   uint64_t t1, t2;
   printf("\n----- %s -----\n", name);
   KEM kem = KEM_create(name);
-  OQS_KEM* kem_algorithm = get_kem_algorithm(name);
   int BENCH_MAX_KEYGEN = BENCH_MAX / 10;
 
   // keygen
