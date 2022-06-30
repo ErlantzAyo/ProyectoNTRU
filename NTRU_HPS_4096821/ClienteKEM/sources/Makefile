@@ -36,4 +36,6 @@ clean :
 OBJS2=$(subst ../objects/./client.o,,$(OBJS))
 benchmark:
   # usage: make benchmark && time ../bin/benchmark 127.0.0.1 8080
-	$(CC) $(CFLAGS) $@s/$@.c $(OBJS2) -o $(BIN_DIR)/$@
+	$(RM) $(BIN_DIR)/$@
+	$(CC) $(CFLAGS)  $@s/$@.c $(OBJS2) -o $(BIN_DIR)/$@
+	#	$(CC) -msse -mavx $(CFLAGS)  $@s/$@.c $(OBJS2) -o $(BIN_DIR)/$@

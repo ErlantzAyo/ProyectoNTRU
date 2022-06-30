@@ -386,6 +386,6 @@ int main(int argc, char const *argv[]) {
   if (benchmarkNTRU() != 0) printf("@@@@ INVALID NTRU BENCHMARK@@@ \n");
   if (benchmarkSPARKLE() != 0) printf("@@@@ INVALID SPARKLE BENCHMARK@@@ \n");
   if (benchmarkNETWORK(argc, argv) != 0)
-    printf("@@@@ INVALID NETWOK BENCHMARK@@@ \n");
+    printf("@@@@ INVALID NETWORK BENCHMARK@@@ \n");
   return 0;
 }
