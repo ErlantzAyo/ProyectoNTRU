@@ -139,8 +139,8 @@ int start(int argc, char *argv[]) {
         EscribirFichero("../../datos.txt", "PRUEBA ", connfd);
         KEM(connfd, &kpTime, &decTime, shared_secret);
         ReceiveSparkle256(connfd, shared_secret);
-        EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
-        EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
+      //  EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
+      //  EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
         printf("Conexion : %d\n", n++);
           close(connfd);
       }

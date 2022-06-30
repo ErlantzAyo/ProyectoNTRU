@@ -32,8 +32,9 @@ double dato;
   }
   fscanf(fp, "%lf",&dato);
   //printf("\nDATO = %f",dato);
-  return dato;
   fclose(fp);
+  return dato;
+
 }
 void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len) {
   FILE *fp;
@@ -42,6 +43,7 @@ void WriteFileKey(char *nombreFichero, uint8_t* key, size_t len) {
 
   if (fp == NULL) {
     return;
+    fclose(fp);
   }
   //transform uint8_t to base64
   char *out = base64_encode(key,len,&outl);
