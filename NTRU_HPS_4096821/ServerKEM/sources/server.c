@@ -47,9 +47,7 @@
   "  (no params) - Create server with localhost address at 8080 port\n" \
   "  raw         - Do not encrypt (useful for benchmarking)\n" \
 
-
-
-int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret);
+int KEM(int connfd, uint8_t *shared_secret);
 static int decrypt(const uint8_t *id, const uint8_t *key, const uint8_t *nonce,
                    const uint8_t *tag, uint8_t *ct, const size_t ct_len,
                    uint8_t *msg);
@@ -67,7 +65,6 @@ int main(int argc, char *argv[]) {
     return start(argc, argv);
   }
 }
-
 
 int start(int argc, char *argv[]) {
 
@@ -137,10 +134,8 @@ int start(int argc, char *argv[]) {
       } else {
 
         EscribirFichero("../../datos.txt", "PRUEBA ", connfd);
-        KEM(connfd, &kpTime, &decTime, shared_secret);
+        KEM(connfd, shared_secret);
         ReceiveSparkle256(connfd, shared_secret);
-      //  EscribirFichero("../../datos.txt", "KeypairTime (ms) =", kpTime);
-      //  EscribirFichero("../../datos.txt", "DecryptTime (ms) =", decTime);
         printf("Conexion : %d\n", n++);
           close(connfd);
       }
@@ -155,14 +150,13 @@ int start(int argc, char *argv[]) {
   return 0;
 
 }
-int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret) {
+int KEM(int connfd, uint8_t *shared_secret) {
   uint8_t public_key[NTRU_PUBLICKEYBYTES];
   uint8_t secret_key[NTRU_SECRETKEYBYTES];
   uint8_t ciphertext[NTRU_CIPHERTEXTBYTES];
 
   int rc;
 
-  clock_t tic, toc;
 
   // Case ./serverKEM key --> read keys from FILE.
   readFileKey("../SK.pem", secret_key, sizeof(secret_key));
@@ -176,19 +170,16 @@ int KEM(int connfd, double *kpTime, double *decTime, uint8_t *shared_secret) {
 
   printBstr("SERVER: CT=", ciphertext, NTRU_CIPHERTEXTBYTES);
 
-  tic = clock();
   rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_dec(shared_secret, ciphertext,
                                                    secret_key);
-  toc = clock();
-  *decTime = TiempoProceso(tic, toc);
+
   if (rc != 0) {
     fprintf(stderr, "ERROR: crypto_kem_dec failed!\n");
     return -3;
   }
 
   printBstr("SERVER: SSD=", shared_secret, NTRU_SHAREDKEYBYTES);
-  printf("\n Keypair time (ms): %f ", *kpTime);
-  printf("\n Decrypt time (ms): %f \n", *decTime);
+
 
   return 0;
 }

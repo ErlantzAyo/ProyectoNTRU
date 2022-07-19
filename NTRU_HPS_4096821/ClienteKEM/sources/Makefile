@@ -13,7 +13,7 @@ OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(basename $(SOURCES))))
 # macros to compile in default(benchmarks) or production(continuous) modes
 # MACROS = -DPRODUCTION
 # MACROS = -DBENCH
-MACROS =
+MACROS = 
 
 CFLAGS =-O3 -Wall $(MACROS) -I$(INC_DIR)
 

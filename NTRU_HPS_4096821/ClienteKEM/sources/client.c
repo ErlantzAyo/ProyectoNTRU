@@ -58,13 +58,21 @@ static uint8_t public_key[NTRU_PUBLICKEYBYTES];
   "  raw         - Do not encrypt (useful for benchmarking)\n" \
   "  $ip $port     - Connect to another server or port\n"
 
-int KEMCliente(int, double *, uint8_t *);
+int KEMCliente(int, uint8_t *);
 
 int encrypt(const uint8_t *id, const uint8_t *key, const uint8_t *msg,
             const size_t msg_len, uint8_t *nonce, uint8_t *tag, uint8_t *ct);
 
 void sendSparkle256(int sockfd, uint8_t *shared_secret, uint8_t *msg);
 int start(int argc, char *argv[]);
+
+/* -----------------------------*/
+long currentTimeMillis() {
+  struct timeval time;
+  gettimeofday(&time, NULL);
+  return time.tv_sec * 1000 + time.tv_usec / 1000;
+}
+/* -----------------------------*/
 
 int main(int argc, char *argv[]) {
   if (argc >= 2 && (strcmp(argv[1], "-h") == 0 || strcmp(argv[1], "help") == 0))
@@ -80,9 +88,15 @@ int main(int argc, char *argv[]) {
     sleep(10);
   }
 #else
-  for (int i = 0; i < 10000; i++) {
+
+uint64_t t1, t2;
+t1 = currentTimeMillis();
+  for (int i = 0; i < 100; i++) {
     start(argc, argv);
   }
+  t2 = currentTimeMillis();
+  printf("\nNETWORK: %lf ms/op\n", (t2 - t1) * 1.0 / 100);
+
 #endif
 }
 
@@ -90,7 +104,6 @@ int start(int argc, char *argv[]) {
   int sockfd;
   struct sockaddr_in servaddr;
 
-  double encTime;
   uint8_t shared_secret[NTRU_SHAREDKEYBYTES];
   /* Socket creation */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -116,7 +129,6 @@ int start(int argc, char *argv[]) {
 
   OUTPUT(("connected to the server..\n"));
 
-
   // send data
 
   if (argc == 2 && strcmp(argv[1], "raw") == 0) {
@@ -126,10 +138,13 @@ int start(int argc, char *argv[]) {
   } else {
 
     // read PK
-    read(sockfd, public_key, sizeof(public_key));
-    printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
-    KEMCliente(sockfd, &encTime, shared_secret);
-    //EscribirFichero("../../datos.txt", "EncryptTime (ms) =", encTime);
+    //read(sockfd, public_key, sizeof(public_key));
+    //printBstr("CLIENT: PK=", public_key, NTRU_CIPHERTEXTBYTES);
+    //KEMCliente(sockfd, shared_secret);
+  //uint8_t msg[CRYPTO_KEYBYTES];
+  //  getTempMsg(msg);
+   //sendSparkle256(sockfd, shared_secret, msg);
+   write(sockfd, "a", sizeof("a"));
   }
   /* close the socket */
   close(sockfd);
@@ -137,25 +152,21 @@ int start(int argc, char *argv[]) {
   return 0;
 }
 
-int KEMCliente(int sockfd, double *encTime, uint8_t *shared_secret) {
+int KEMCliente(int sockfd, uint8_t *shared_secret) {
   uint8_t ciphertext[NTRU_CIPHERTEXTBYTES];
   int rc;
-  clock_t tic, toc;
-  tic = clock();
+
   rc = PQCLEAN_NTRUHPS4096821_CLEAN_crypto_kem_enc(ciphertext, shared_secret,
                                                    public_key);
-  toc = clock();
-  *encTime = TiempoProceso(tic, toc);
   if (rc != 0) {
     fprintf(stderr, "ERROR: crypto_kem_enc failed!\n");
     return -2;
   }
-  // printBstr("CLIENT: CT=", ciphertext, NTRU_CIPHERTEXTBYTES);
   printBstr("CLIENT: SSE=", shared_secret, NTRU_SHAREDKEYBYTES);
 
   write(sockfd, ciphertext, sizeof(ciphertext));
 
-  // Gather and transmit encryptedsensor data
+  // Gather and transmit encrypted sensor data
   uint8_t msg[CRYPTO_KEYBYTES];
   getTempMsg(msg);
   sendSparkle256(sockfd, shared_secret, msg);
@@ -181,15 +192,22 @@ void sendSparkle256(int sockfd, uint8_t *shared_secret, uint8_t *msg) {
   /* Encrypt and generate tag*/
   uint8_t tag[CRYPTO_KEYBYTES];
   uint8_t enc[CRYPTO_KEYBYTES];
+  uint8_t concatenado1[64];
+  uint8_t concatenado2[96];
   encrypt(id, shared_secret, msg, CRYPTO_KEYBYTES, nonce, tag, enc);
   log8("nonce: ", nonce, sizeof nonce);
   log8("enc  : ", enc, sizeof enc);
   log8("tag  : ", tag, sizeof tag);
 
-  /* Send to socket */
+
   write(sockfd, nonce, CRYPTO_KEYBYTES);
   write(sockfd, enc, CRYPTO_KEYBYTES);
   write(sockfd, tag, CRYPTO_KEYBYTES);
+
+  //memcpy(memcpy(concatenado1,nonce,32),enc,32);
+  //memcpy(memcpy(concatenado2,concatenado1,64),tag,32);
+  //log8("concatenado: ", concatenado2, sizeof concatenado2);
+  //write (sockfd, concatenado2,96);
 }
 
 int encrypt(const uint8_t *id, const uint8_t *key, const uint8_t *msg,
@@ -202,3 +220,4 @@ int encrypt(const uint8_t *id, const uint8_t *key, const uint8_t *msg,
   if (id != NULL) GenerateTag(&state, tag);
   return 0;
 }
+

@@ -31,7 +31,7 @@ double dato;
     exit(1);
   }
   fscanf(fp, "%lf",&dato);
-  //printf("\nDATO = %f",dato);
+  
   fclose(fp);
   return dato;
 

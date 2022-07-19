@@ -8,10 +8,10 @@
  * These defines
  */
 #ifndef BENCH_MAX
-#define BENCH_MAX 1000
+#define BENCH_MAX 10000
 #endif
 #ifndef BENCH_MAX_NET
-#define BENCH_MAX_NET 10000
+#define BENCH_MAX_NET 10
 #endif
 
 /*standard symbols */
