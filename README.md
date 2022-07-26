@@ -1,13 +1,30 @@
 # NTRU for Post-Quantum tasks
 
+## 1 minute tutorial
+
+```
+git clone https://github.com/ErlantzAyo/ProyectoNTRU
+cd NTRU_HPS_4096821/ServerKEM/sources && make
+../bin/Server/KEM
+cd NTRU_HPS_4096821/ClienteKEM/sources && make
+../bin/ClientKEM
+```
+
 ## Scenario
 
 `Client` connects to `Server` and sends a value. This value is encrypted by using a post-quantum algorithm. Expected outcome: only the private key owner can read the value and this value is resistant against conventional and quantum attacks.
+
+## Projects
+- NTRU_HPS: the primary project. Use asymmetric+symmetric (stateless) data.
+- NTRU_HRSS: the secondary project. Use modified algorithm from KEM HRSS to send only asymmetric data.
+- QDEFENDER: a helper project to test different PQ algorithms other than NTRU.
 
 ## Client flavours
 
 - for benchmarks. Run the `benchmark` executable containing CPU and NET benchmarks.
 - for production. Continuous mode. Use the `__PRODUCTION__` macro or run the `ClientKEM_Production`. 
+r
+> Note, when starting the application with -help flag, a description with available parameters is shown.
 
 ## Detailed scenario
 

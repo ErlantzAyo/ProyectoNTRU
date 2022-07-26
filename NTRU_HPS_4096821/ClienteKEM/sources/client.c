@@ -56,7 +56,7 @@ static uint8_t public_key[NTRU_PUBLICKEYBYTES];
   "Usage:\n"                                                   \
   "  (no params) - Connect to localhost server at 8080 port\n" \
   "  raw         - Do not encrypt (useful for benchmarking)\n" \
-  "  $ip $port     - Connect to another server or port\n"
+  "  $ip $port   - Connect to another server or port\n"
 
 int KEMCliente(int, uint8_t *);
 
